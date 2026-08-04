@@ -1,0 +1,45 @@
+<!--
+  HOW TO PUBLISH A NEW IDEA OR PUBLICATION
+  =========================================
+  1. Copy this file into the _posts/ folder.
+  2. Rename it to:  YYYY-MM-DD-a-short-url-slug.md
+     Example:       2026-09-01-notes-on-agent-memory.md
+     The date in the filename MUST match the "date" field below,
+     and it controls where the post sits in the list on the home page
+     (newest first).
+  3. Fill in the front matter (the part between the --- lines) and
+     write your content in Markdown below it.
+  4. Delete this comment block before publishing (it's just instructions).
+  5. Commit and push. GitHub Pages rebuilds the site automatically —
+     no other steps needed.
+
+  FIELDS
+  ------
+  title:    Shown as the page title and in the home page list.
+  date:     YYYY-MM-DD (must match the filename date).
+  category: "idea" or "publication" — controls the colored badge.
+  tags:     Optional list of short topic tags, shown under the title.
+  excerpt:  1-2 sentence summary shown on the home page. If omitted,
+            Jekyll auto-generates one from your first paragraph.
+  download: Optional. Path to a file in assets/files/ (e.g. a PDF or
+            Word doc) if this post has a downloadable version. Delete
+            this line entirely if there's nothing to download.
+-->
+---
+title: "Your Title Here"
+date: 2026-01-01
+category: idea
+tags: [Tag One, Tag Two]
+excerpt: "One or two sentences summarizing this post for the home page listing."
+download: /assets/files/your-file.pdf
+---
+
+Write your post content here using normal Markdown: `##` for section
+headings, `**bold**`, `[links](https://example.com)`, and
+
+| Pipe | Tables |
+|---|---|
+| also | work |
+
+If you attached a downloadable file, drop it into `assets/files/` first
+and point the `download:` field above at it, e.g. `/assets/files/your-file.pdf`.

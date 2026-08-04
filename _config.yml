@@ -1,0 +1,44 @@
+title: Malai Arasu Paneerselvam
+description: >-
+  Ideas, publications, and projects from an AI native technologist —
+  notes on applied AI, platform engineering, and building with AI-native tools.
+author: Malai Arasu Paneerselvam
+email: malaiarasu@gmail.com
+
+# Update these once the repo is live. If you use a <username>.github.io repo,
+# url should be "https://<username>.github.io" and baseurl should stay empty.
+# If you use a normal repo (e.g. "my-site"), set baseurl to "/my-site".
+url: "https://malaiarasu.github.io"
+baseurl: "/thinkai"
+
+github_username: malaiarasu
+linkedin_url: "https://www.linkedin.com/in/malaiarasu-paneerselvam/"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+
+exclude:
+  - README.md
+  - templates/
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - node_modules/
