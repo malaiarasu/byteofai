@@ -4,7 +4,7 @@ Personal site for publishing ideas and write-ups, built with [Jekyll](https://je
 
 ## 1. One-time setup
 
-This site is published to the `thinkai` repo, so it's served at `https://malaiarasu.github.io/thinkai` (not the domain root). `baseurl: "/thinkai"` is already set in `_config.yml` to match — don't remove it, or internal links will break.
+This site is published to the `byteofai` repo, so it's served at `https://malaiarasu.github.io/byteofai` (not the domain root). `baseurl: "/byteofai"` is already set in `_config.yml` to match — don't remove it, or internal links will break.
 
 1. **Push this folder's contents to the repo** (already done for you if you're reading this after the initial publish):
 
@@ -14,12 +14,12 @@ This site is published to the `thinkai` repo, so it's served at `https://malaiar
    git add .
    git commit -m "Initial site"
    git branch -M main
-   git remote add origin https://github.com/malaiarasu/thinkai.git
+   git remote add origin https://github.com/malaiarasu/byteofai.git
    git push -u origin main
    ```
 
 2. **Enable GitHub Pages:** on GitHub, go to the repo → **Settings** → **Pages** → under "Build and deployment", set **Source** to "Deploy from a branch", branch `main`, folder `/ (root)`. Save.
-3. Wait a minute or two, then visit `https://malaiarasu.github.io/thinkai`.
+3. Wait a minute or two, then visit `https://malaiarasu.github.io/byteofai`.
 
 That's it — no CI config, no Gemfile required. GitHub Pages runs Jekyll for you automatically.
 
@@ -75,5 +75,5 @@ Then open `http://localhost:4000`. This step is optional — pushing to GitHub i
 
 ## Note on repo naming / `baseurl`
 
-- This repo is named `thinkai` (not `malaiarasu.github.io`), so GitHub serves it under a subpath: `https://malaiarasu.github.io/thinkai`. `baseurl: "/thinkai"` in `_config.yml` handles that — keep it in sync if you ever rename the repo.
+- This repo is named `byteofai` (not `malaiarasu.github.io`), so GitHub serves it under a subpath: `https://malaiarasu.github.io/byteofai`. `baseurl: "/byteofai"` in `_config.yml` handles that — keep it in sync if you ever rename the repo.
 - If you later move this to a repo named exactly `malaiarasu.github.io`, set `baseurl: ""` and `url: "https://malaiarasu.github.io"` to serve from the domain root instead.

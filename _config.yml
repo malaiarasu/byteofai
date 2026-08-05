@@ -9,7 +9,7 @@ email: malaiarasu@gmail.com
 # url should be "https://<username>.github.io" and baseurl should stay empty.
 # If you use a normal repo (e.g. "my-site"), set baseurl to "/my-site".
 url: "https://malaiarasu.github.io"
-baseurl: "/thinkai"
+baseurl: "/byteofai"
 
 github_username: malaiarasu
 linkedin_url: "https://www.linkedin.com/in/malaiarasu-paneerselvam/"
