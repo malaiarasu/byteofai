@@ -1,4 +1,4 @@
-# malaiarasu-site
+# byteofai-site
 
 Personal site for publishing ideas and write-ups, built with [Jekyll](https://jekyllrb.com/) and hosted free on GitHub Pages. No build step required on your end — GitHub builds and deploys the site automatically every time you push.
 
@@ -9,7 +9,7 @@ This site is published to the `byteofai` repo, so it's served at `https://malaia
 1. **Push this folder's contents to the repo** (already done for you if you're reading this after the initial publish):
 
    ```bash
-   cd malaiarasu-site
+   cd byteofai-site
    git init
    git add .
    git commit -m "Initial site"
