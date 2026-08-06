@@ -1,0 +1,24 @@
+{% assign words = include.post.content | number_of_words %}
+{% assign reading_time = words | divided_by: 200 %}
+{% assign topic = include.post.topic %}
+{% case topic %}
+  {% when 'ai' %}{% assign topic_label = 'AI' %}
+  {% when 'cloud' %}{% assign topic_label = 'Cloud' %}
+  {% when 'coding' %}{% assign topic_label = 'Coding' %}
+  {% when 'algorithms' %}{% assign topic_label = 'Algorithms' %}
+  {% else %}{% assign topic_label = topic | capitalize %}
+{% endcase %}
+<article class="post-card">
+  <div class="post-card-top">
+    {% if topic %}<span class="badge badge-{{ topic }}">{{ topic_label }}</span>{% endif %}
+    <span class="post-meta">{{ include.post.date | date: "%B %-d, %Y" }} &middot; {% if reading_time <= 1 %}1 min read{% else %}{{ reading_time }} min read{% endif %}</span>
+  </div>
+  <h3><a href="{{ include.post.url | relative_url }}">{{ include.post.title }}</a></h3>
+  <p class="post-excerpt">{{ include.post.excerpt | strip_html | strip_newlines | truncate: 180 }}</p>
+  {% if include.post.tags and include.post.tags.size > 0 %}
+  <div class="tag-row">
+    {% for tag in include.post.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+  </div>
+  {% endif %}
+  <a class="read-more" href="{{ include.post.url | relative_url }}">Read article <span aria-hidden="true">&rarr;</span></a>
+</article>

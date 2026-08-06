@@ -1,5 +1,5 @@
 <!--
-  HOW TO PUBLISH A NEW IDEA OR PUBLICATION
+  HOW TO PUBLISH A NEW ARTICLE
   =========================================
   1. Copy this file into the _posts/ folder.
   2. Rename it to:  YYYY-MM-DD-a-short-url-slug.md
@@ -17,7 +17,9 @@
   ------
   title:    Shown as the page title and in the home page list.
   date:     YYYY-MM-DD (must match the filename date).
-  category: "idea" or "publication" — controls the colored badge.
+  topic:    "ai", "cloud", "coding", or "algorithms" — controls the
+            colored badge and which sidebar tab / topic page
+            (/ai/, /cloud/, /coding/, /algorithms/) this post shows up under.
   tags:     Optional list of short topic tags, shown under the title.
   excerpt:  1-2 sentence summary shown on the home page. If omitted,
             Jekyll auto-generates one from your first paragraph.
@@ -28,7 +30,7 @@
 ---
 title: "Your Title Here"
 date: 2026-01-01
-category: idea
+topic: ai
 tags: [Tag One, Tag Two]
 excerpt: "One or two sentences summarizing this post for the home page listing."
 download: /assets/files/your-file.pdf

@@ -1,0 +1,26 @@
+---
+layout: default
+---
+<section class="hero hero-compact">
+  <p class="eyebrow">{{ site.title }}</p>
+  <h1>{{ page.title }}</h1>
+  {% if content and content != "" %}<div class="lede">{{ content }}</div>{% endif %}
+</section>
+
+<section class="post-list">
+  {% assign filtered = site.posts | where: "topic", page.topic %}
+  <div class="section-heading">
+    <h2>{{ page.title }} Articles</h2>
+    {% if filtered.size > 0 %}<span class="count">{{ filtered.size }} post{% if filtered.size != 1 %}s{% endif %}</span>{% endif %}
+  </div>
+
+  {% if filtered.size == 0 %}
+    <p class="empty">No {{ page.title }} articles yet — check back soon.</p>
+  {% endif %}
+
+  <div class="post-grid">
+    {% for post in filtered %}
+      {% include post-card.html post=post %}
+    {% endfor %}
+  </div>
+</section>

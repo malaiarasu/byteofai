@@ -1,15 +1,16 @@
-title: Malai Arasu Paneerselvam
+title: Byte of AI
+tagline: Ideas &amp; write-ups on applied AI
 description: >-
   Ideas, publications, and projects from an AI native technologist —
   notes on applied AI, platform engineering, and building with AI-native tools.
 author: Malai Arasu Paneerselvam
 email: malaiarasu@gmail.com
 
-# Update these once the repo is live. If you use a <username>.github.io repo,
-# url should be "https://<username>.github.io" and baseurl should stay empty.
-# If you use a normal repo (e.g. "my-site"), set baseurl to "/my-site".
-url: "https://malaiarasu.github.io"
-baseurl: "/byteofai"
+# This site is served from the custom domain in CNAME (byteofai.dev), which
+# sits at the domain root — so baseurl must stay empty. Only set a baseurl
+# if you remove CNAME and fall back to https://<username>.github.io/byteofai.
+url: "https://byteofai.dev"
+baseurl: ""
 
 github_username: malaiarasu
 linkedin_url: "https://www.linkedin.com/in/malaiarasu-paneerselvam/"

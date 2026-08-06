@@ -1,26 +1,79 @@
 ---
 layout: default
 title: Home
+nav: home
 ---
-<section class="intro">
-  <h1>Hi, I'm {{ site.author }}</h1>
+<section class="hero">
+  <p class="eyebrow">{{ site.title }}</p>
+  <h1>{{ site.tagline | default: "Ideas &amp; write-ups on applied AI" }}</h1>
   <p class="lede">{{ site.description }}</p>
+  <p class="byline">
+    By <strong>{{ site.author }}</strong>
+    <span class="dot">&middot;</span>
+    <a href="{{ site.linkedin_url }}" target="_blank" rel="noopener">LinkedIn</a>
+    <span class="dot">&middot;</span>
+    <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener">GitHub</a>
+  </p>
+</section>
+
+{% assign ai_posts = site.posts | where: "topic", "ai" %}
+{% assign cloud_posts = site.posts | where: "topic", "cloud" %}
+{% assign coding_posts = site.posts | where: "topic", "coding" %}
+{% assign algorithms_posts = site.posts | where: "topic", "algorithms" %}
+
+<section class="topics-overview">
+  <div class="section-heading">
+    <h2>Explore by topic</h2>
+  </div>
+  <div class="topic-grid">
+    <a class="topic-card topic-card-ai" href="{{ '/ai/' | relative_url }}">
+      <span class="topic-card-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4L12 3Z"/><path d="M19 15l.7 1.7L21.4 18l-1.7.7L19 20.4l-.7-1.7L16.6 18l1.7-.7L19 15Z"/></svg>
+      </span>
+      <h3>AI</h3>
+      <p>Applied AI, LLMOps, agents, and the tools reshaping how software gets built.</p>
+      <span class="topic-count">{{ ai_posts.size }} article{% if ai_posts.size != 1 %}s{% endif %}</span>
+    </a>
+    <a class="topic-card topic-card-cloud" href="{{ '/cloud/' | relative_url }}">
+      <span class="topic-card-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17 9.5a3.5 3.5 0 0 1-1 6.5H7Z"/></svg>
+      </span>
+      <h3>Cloud</h3>
+      <p>Cloud platforms, infrastructure, and the plumbing behind reliable AI systems.</p>
+      <span class="topic-count">{{ cloud_posts.size }} article{% if cloud_posts.size != 1 %}s{% endif %}</span>
+    </a>
+    <a class="topic-card topic-card-coding" href="{{ '/coding/' | relative_url }}">
+      <span class="topic-card-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 5l-2 14"/></svg>
+      </span>
+      <h3>Coding</h3>
+      <p>Hands-on notes on building software with AI-native tools and workflows.</p>
+      <span class="topic-count">{{ coding_posts.size }} article{% if coding_posts.size != 1 %}s{% endif %}</span>
+    </a>
+    <a class="topic-card topic-card-algorithms" href="{{ '/algorithms/' | relative_url }}">
+      <span class="topic-card-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2"/><circle cx="5" cy="18.5" r="2"/><circle cx="19" cy="18.5" r="2"/><path d="M11 6.3 6 16.7M13 6.3 18 16.7M7 18.5h10"/></svg>
+      </span>
+      <h3>Algorithms</h3>
+      <p>Data structures, algorithmic thinking, and notes on solving problems efficiently.</p>
+      <span class="topic-count">{{ algorithms_posts.size }} article{% if algorithms_posts.size != 1 %}s{% endif %}</span>
+    </a>
+  </div>
 </section>
 
 <section class="post-list">
-  <h2>Ideas &amp; Publications</h2>
+  <div class="section-heading">
+    <h2>Latest Articles</h2>
+    {% if site.posts.size > 0 %}<span class="count">{{ site.posts.size }} post{% if site.posts.size != 1 %}s{% endif %}</span>{% endif %}
+  </div>
 
   {% if site.posts.size == 0 %}
     <p class="empty">Nothing published yet — check back soon.</p>
   {% endif %}
 
-  {% for post in site.posts %}
-  <article class="post-card">
-    {% if post.category %}<span class="badge badge-{{ post.category }}">{{ post.category | capitalize }}</span>{% endif %}
-    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-    <p class="post-meta">{{ post.date | date: "%B %-d, %Y" }}</p>
-    <p class="post-excerpt">{{ post.excerpt | strip_html | strip_newlines | truncate: 200 }}</p>
-    <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
-  </article>
-  {% endfor %}
+  <div class="post-grid">
+    {% for post in site.posts %}
+      {% include post-card.html post=post %}
+    {% endfor %}
+  </div>
 </section>

@@ -1,15 +1,15 @@
-# byteofai-site
+# Byte of AI
 
-Personal site for publishing ideas and write-ups, built with [Jekyll](https://jekyllrb.com/) and hosted free on GitHub Pages. No build step required on your end — GitHub builds and deploys the site automatically every time you push.
+Personal site for publishing AI/Cloud/Coding/Algorithms write-ups, built with [Jekyll](https://jekyllrb.com/) and hosted free on GitHub Pages. No build step required on your end — GitHub builds and deploys the site automatically every time you push.
 
 ## 1. One-time setup
 
-This site is published to the `byteofai` repo, so it's served at `https://malaiarasu.github.io/byteofai` (not the domain root). `baseurl: "/byteofai"` is already set in `_config.yml` to match — don't remove it, or internal links will break.
+This site is served from the custom domain in `CNAME` (`byteofai.dev`), which sits at the domain root — so `baseurl` in `_config.yml` must stay `""`. Only set a `baseurl` if you ever remove `CNAME` and fall back to `https://<username>.github.io/byteofai`.
 
 1. **Push this folder's contents to the repo** (already done for you if you're reading this after the initial publish):
 
    ```bash
-   cd byteofai-site
+   cd byteofai
    git init
    git add .
    git commit -m "Initial site"
@@ -19,15 +19,20 @@ This site is published to the `byteofai` repo, so it's served at `https://malaia
    ```
 
 2. **Enable GitHub Pages:** on GitHub, go to the repo → **Settings** → **Pages** → under "Build and deployment", set **Source** to "Deploy from a branch", branch `main`, folder `/ (root)`. Save.
-3. Wait a minute or two, then visit `https://malaiarasu.github.io/byteofai`.
+3. **Custom domain:** under the same Pages settings, set the custom domain to `byteofai.dev` (should auto-detect from the `CNAME` file) and enable "Enforce HTTPS" once the certificate is issued.
+4. Wait a minute or two, then visit `https://byteofai.dev`.
 
 That's it — no CI config, no Gemfile required. GitHub Pages runs Jekyll for you automatically.
 
-## 2. Publishing a new idea or write-up
+## 2. Site structure & navigation
+
+The site is organized around four topics, surfaced as tabs in the left sidebar: **AI**, **Cloud**, **Coding**, **Algorithms**, plus **About**. Each topic has its own page (`ai.md`, `cloud.md`, `coding.md`, `algorithms.md`) that automatically lists every post tagged with that topic.
+
+## 3. Publishing a new article
 
 1. Copy `templates/new-post-template.md` into the `_posts/` folder.
 2. Rename it to `YYYY-MM-DD-a-short-slug.md` (the date controls sort order and must match the `date:` field inside).
-3. Fill in the title, date, `category` (`idea` or `publication` — controls the badge color), tags, and excerpt in the front matter, then write your content in Markdown below it.
+3. Fill in the title, date, `topic` (`ai`, `cloud`, `coding`, or `algorithms` — controls the colored badge and which sidebar tab/topic page it appears under), tags, and excerpt in the front matter, then write your content in Markdown below it.
 4. If you have a file to attach (PDF, Word doc, slides, etc.), drop it in `assets/files/` and point the `download:` field at it, e.g. `/assets/files/my-file.pdf`. Delete the `download:` line if there's nothing to attach.
 5. Commit and push:
 
@@ -39,41 +44,53 @@ That's it — no CI config, no Gemfile required. GitHub Pages runs Jekyll for yo
 
 6. GitHub rebuilds automatically — refresh the site in a minute to see it live.
 
-The home page (`index.html`) lists every post automatically, newest first — you never need to edit it by hand.
+The home page (`index.html`) and each topic page (`/ai/`, `/cloud/`, `/coding/`, `/algorithms/`) list matching posts automatically, newest first — you never need to edit them by hand.
 
-## 3. Editing the About page
+## 4. Editing the About page
 
 Edit `about.md` directly — it's plain Markdown with a bit of HTML for the contact list. Update the bio, links, or title any time.
 
-## 4. Site structure
+## 5. Site structure
 
 ```
-_config.yml           Site title, description, author info, social links
-_layouts/default.html Base page template (header, nav, footer)
-_layouts/post.html    Template used for every post in _posts/
-_posts/                One Markdown file per idea/publication
+_config.yml            Site title, description, author info, social links
+_layouts/default.html  Base page template (sidebar nav, footer)
+_layouts/post.html     Template used for every post in _posts/
+_layouts/topic.html    Template used for ai.md / cloud.md / coding.md / algorithms.md
+_includes/post-card.html  Shared article-card markup (home + topic pages)
+_posts/                One Markdown file per article
+ai.md, cloud.md, coding.md, algorithms.md  Topic pages — auto-list posts by topic
 about.md               The About page
-index.html              Home page — auto-lists all posts
+index.html             Home page — hero, topic explorer, all posts
 assets/css/style.css   All styling
+assets/js/theme.js     Light/dark theme toggle
 assets/files/          Downloadable attachments (docs, PDFs, etc.)
-templates/              Copy-paste template for new posts (not published)
+templates/             Copy-paste template for new posts (not published)
 ```
 
-## 5. Previewing locally (optional)
+## 6. Previewing locally (optional)
 
-If you have Ruby installed:
+The `Gemfile` in this repo uses the `github-pages` gem, which requires a fairly recent Ruby (3.1+). If you have a modern Ruby installed:
 
 ```bash
 gem install bundler jekyll
-bundle init
-echo 'gem "github-pages", group: :jekyll_plugins' >> Gemfile
 bundle install
-bundle exec jekyll serve
+bundle exec jekyll serve --livereload
+```
+
+**If your system Ruby is older** (e.g. macOS's bundled Ruby 2.6), `github-pages` won't install. Use a standalone Jekyll instead:
+
+```bash
+export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+export PATH="$GEM_HOME/bin:$PATH"
+export JEKYLL_NO_BUNDLER_REQUIRE=true
+
+# one-time install of versions compatible with old Ruby:
+gem install jekyll -v 4.2.2 rouge -v 3.30.0 i18n -v 1.14.8 \
+  public_suffix -v 4.0.7 ffi -v 1.15.5 jekyll-feed jekyll-seo-tag \
+  --user-install --no-document
+
+jekyll serve --livereload
 ```
 
 Then open `http://localhost:4000`. This step is optional — pushing to GitHub is enough to see changes live.
-
-## Note on repo naming / `baseurl`
-
-- This repo is named `byteofai` (not `malaiarasu.github.io`), so GitHub serves it under a subpath: `https://malaiarasu.github.io/byteofai`. `baseurl: "/byteofai"` in `_config.yml` handles that — keep it in sync if you ever rename the repo.
-- If you later move this to a repo named exactly `malaiarasu.github.io`, set `baseurl: ""` and `url: "https://malaiarasu.github.io"` to serve from the domain root instead.

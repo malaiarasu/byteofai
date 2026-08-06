@@ -1,7 +1,7 @@
 ---
 title: "AI Gateway Landscape: Kong vs LiteLLM vs AWS vs Azure APIM"
 date: 2026-08-04
-category: publication
+topic: ai
 tags: [AI Infrastructure, API Gateways, LLMOps]
 download: /assets/files/AI_Gateway_Comparison.docx
 excerpt: "A comparison of Kong AI Gateway, LiteLLM, AWS API Gateway + Bedrock, and Azure API Management as AI gateways — features, architecture, pricing, and how to choose."

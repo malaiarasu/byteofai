@@ -1,14 +1,34 @@
 ---
 layout: default
 ---
+{% assign words = content | number_of_words %}
+{% assign reading_time = words | divided_by: 200 %}
+{% assign topic = page.topic %}
+{% case topic %}
+  {% when 'ai' %}{% assign topic_label = 'AI' %}
+  {% when 'cloud' %}{% assign topic_label = 'Cloud' %}
+  {% when 'coding' %}{% assign topic_label = 'Coding' %}
+  {% when 'algorithms' %}{% assign topic_label = 'Algorithms' %}
+  {% else %}{% assign topic_label = topic | capitalize %}
+{% endcase %}
 <article class="post">
+  <p class="back-link back-link-top"><a href="{{ '/' | relative_url }}">&larr; All articles</a></p>
+
   <header class="post-header">
-    {% if page.category %}<span class="badge badge-{{ page.category }}">{{ page.category | capitalize }}</span>{% endif %}
+    {% if topic %}<span class="badge badge-{{ topic }}">{{ topic_label }}</span>{% endif %}
     <h1>{{ page.title }}</h1>
     <p class="post-meta">
       {{ page.date | date: "%B %-d, %Y" }}
-      {% if page.tags and page.tags.size > 0 %} · {{ page.tags | join: " · " }}{% endif %}
+      <span class="dot">&middot;</span>
+      {% if reading_time <= 1 %}1 min read{% else %}{{ reading_time }} min read{% endif %}
+      <span class="dot">&middot;</span>
+      By {{ site.author }}
     </p>
+    {% if page.tags and page.tags.size > 0 %}
+    <div class="tag-row">
+      {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+    </div>
+    {% endif %}
   </header>
 
   <div class="post-content">
@@ -17,9 +37,12 @@ layout: default
 
   {% if page.download %}
   <p class="download">
-    <a class="btn" href="{{ page.download | relative_url }}" download>Download original file</a>
+    <a class="btn" href="{{ page.download | relative_url }}" download>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      Download original file
+    </a>
   </p>
   {% endif %}
 
-  <p class="back-link"><a href="{{ '/' | relative_url }}">&larr; Back to all posts</a></p>
+  <p class="back-link"><a href="{{ '/' | relative_url }}">&larr; Back to all articles</a></p>
 </article>
