@@ -1,0 +1,15 @@
+{
+  "name": "byteofai",
+  "compatibility_date": "2026-08-07",
+  // Runs during the Cloudflare build step, before assets are deployed.
+  // Note: this is Ruby's Bundler ("bundle"), not an npm package — do NOT
+  // prefix with "npx" or Cloudflare will try (and fail) to resolve "bundle"
+  // as an npm executable.
+  "build": {
+    "command": "bundle exec jekyll build"
+  },
+  "assets": {
+    "directory": "./_site",
+    "not_found_handling": "404-page"
+  }
+}
