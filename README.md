@@ -24,6 +24,26 @@ This site is served from the custom domain in `CNAME` (`byteofai.dev`), which si
 
 That's it — no CI config, no Gemfile required. GitHub Pages runs Jekyll for you automatically.
 
+### Deploying to Cloudflare Workers instead
+
+This repo also includes `wrangler.jsonc`, which deploys the site as a Cloudflare Worker with static assets instead of (or in addition to) GitHub Pages:
+
+```jsonc
+{
+  "name": "byteofai",
+  "build": { "command": "bundle exec jekyll build" },
+  "assets": { "directory": "./_site" }
+}
+```
+
+In the Cloudflare dashboard, connect this repo under **Workers & Pages** and make sure the **Build command** field is exactly `bundle exec jekyll build` — do **not** prefix it with `npx` (that's for Node packages; `bundle` is Ruby's Bundler and isn't an npm package). If a build ever fails with an `Invalid US-ASCII character` / `Sass::SyntaxError`, add these Build environment variables in the dashboard (Cloudflare's build image doesn't default to a UTF-8 locale):
+
+| Variable | Value |
+| --- | --- |
+| `LANG` | `en_US.UTF-8` |
+| `LC_ALL` | `C.UTF-8` |
+| `LANGUAGE` | `en_US.UTF-8` |
+
 ## 2. Site structure & navigation
 
 The site is organized around four topics, surfaced as tabs in the left sidebar: **AI**, **Cloud**, **Coding**, **Algorithms**, plus **About**. Each topic has its own page (`ai.md`, `cloud.md`, `coding.md`, `algorithms.md`) that automatically lists every post tagged with that topic.
@@ -70,7 +90,7 @@ templates/             Copy-paste template for new posts (not published)
 
 ## 6. Previewing locally (optional)
 
-The `Gemfile` in this repo uses the `github-pages` gem, which requires a fairly recent Ruby (3.1+). If you have a modern Ruby installed:
+The `Gemfile` in this repo uses plain `jekyll` (4.3.x) plus `jekyll-feed` and `jekyll-seo-tag` — no need for the `github-pages` meta-gem since this site isn't hosted on GitHub Pages. If you have a modern Ruby installed (3.1+):
 
 ```bash
 gem install bundler jekyll
@@ -78,7 +98,7 @@ bundle install
 bundle exec jekyll serve --livereload
 ```
 
-**If your system Ruby is older** (e.g. macOS's bundled Ruby 2.6), `github-pages` won't install. Use a standalone Jekyll instead:
+**If your system Ruby is older** (e.g. macOS's bundled Ruby 2.6), the Gemfile's Jekyll 4.3 requirement won't install. Use a standalone Jekyll instead:
 
 ```bash
 export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
