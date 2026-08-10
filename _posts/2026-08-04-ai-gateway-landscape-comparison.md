@@ -53,6 +53,8 @@ In short, the AI gateway is what turns a collection of point-to-point LLM integr
 
 ## 3. Architecture & Deployment
 
+![Animated diagram of a request flowing from an application through an AI gateway to a model, a neural network, and backend servers](/assets/images/ai-gateway-flow.gif)
+
 - **Kong AI Gateway** runs as an extension of Kong Gateway (data plane + control plane). Self-hosted deployments give full control over infrastructure; Konnect offers a managed control plane with self-hosted or cloud data planes. AI plugins (semantic cache, prompt guard, RAG injector) rely on a Redis vector database for embeddings-based features.
 - **LiteLLM** is a lightweight proxy process that can run as a single container, behind Kubernetes with autoscaling, or via the official Helm chart/Terraform module. It uses Postgres for persistence (keys, budgets, logs) and Redis for caching — intentionally minimal, optimized for fast startup and low operational overhead.
 - **AWS API Gateway + Bedrock**: API Gateway is a fully managed, serverless entry point (REST/HTTP/WebSocket APIs) that can front Lambda functions calling Bedrock, or integrate directly with Bedrock via service integrations. Bedrock itself is a managed model-serving layer within your VPC, governed by IAM, KMS, and CloudTrail — no servers to manage, but AI-specific gateway behaviors (routing, caching, token limiting) generally have to be assembled from multiple AWS services rather than configured out of the box.
