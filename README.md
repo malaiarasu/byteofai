@@ -53,8 +53,7 @@ The site is organized around four topics, surfaced as tabs in the left sidebar: 
 1. Copy `templates/new-post-template.md` into the `_posts/` folder.
 2. Rename it to `YYYY-MM-DD-a-short-slug.md` (the date controls sort order and must match the `date:` field inside).
 3. Fill in the title, date, `topic` (`ai`, `cloud`, `coding`, or `algorithms` — controls the colored badge and which sidebar tab/topic page it appears under), tags, and excerpt in the front matter, then write your content in Markdown below it.
-4. If you have a file to attach (PDF, Word doc, slides, etc.), drop it in `assets/files/` and point the `download:` field at it, e.g. `/assets/files/my-file.pdf`. Delete the `download:` line if there's nothing to attach.
-5. Commit and push:
+4. Commit and push:
 
    ```bash
    git add .
@@ -62,7 +61,7 @@ The site is organized around four topics, surfaced as tabs in the left sidebar: 
    git push
    ```
 
-6. GitHub rebuilds automatically — refresh the site in a minute to see it live.
+5. GitHub rebuilds automatically — refresh the site in a minute to see it live.
 
 The home page (`index.html`) and each topic page (`/ai/`, `/cloud/`, `/coding/`, `/algorithms/`) list matching posts automatically, newest first — you never need to edit them by hand.
 
@@ -84,7 +83,6 @@ about.md               The About page
 index.html             Home page — hero, topic explorer, all posts
 assets/css/style.css   All styling
 assets/js/theme.js     Light/dark theme toggle
-assets/files/          Downloadable attachments (docs, PDFs, etc.)
 templates/             Copy-paste template for new posts (not published)
 ```
 

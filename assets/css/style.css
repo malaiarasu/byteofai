@@ -732,27 +732,6 @@ main.wrap {
   margin: 40px 0;
 }
 
-.download { margin-top: 36px; }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--gradient);
-  color: #ffffff;
-  text-decoration: none;
-  padding: 11px 22px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.94rem;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 24px -12px color-mix(in srgb, var(--accent-2) 60%, transparent);
-}
-
 .back-link {
   margin-top: 48px;
 }

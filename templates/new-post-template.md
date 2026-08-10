@@ -23,9 +23,6 @@
   tags:     Optional list of short topic tags, shown under the title.
   excerpt:  1-2 sentence summary shown on the home page. If omitted,
             Jekyll auto-generates one from your first paragraph.
-  download: Optional. Path to a file in assets/files/ (e.g. a PDF or
-            Word doc) if this post has a downloadable version. Delete
-            this line entirely if there's nothing to download.
 -->
 ---
 title: "Your Title Here"
@@ -33,7 +30,6 @@ date: 2026-01-01
 topic: ai
 tags: [Tag One, Tag Two]
 excerpt: "One or two sentences summarizing this post for the home page listing."
-download: /assets/files/your-file.pdf
 ---
 
 Write your post content here using normal Markdown: `##` for section
@@ -42,6 +38,3 @@ headings, `**bold**`, `[links](https://example.com)`, and
 | Pipe | Tables |
 |---|---|
 | also | work |
-
-If you attached a downloadable file, drop it into `assets/files/` first
-and point the `download:` field above at it, e.g. `/assets/files/your-file.pdf`.
