@@ -9,6 +9,19 @@ excerpt: "A comparison of Kong AI Gateway, LiteLLM, AWS API Gateway + Bedrock, a
 
 AI gateways sit between applications and large language model (LLM) backends, handling routing, authentication, rate limiting, observability, caching, and safety controls for generative AI traffic. This comparison looks at four options that take different approaches: two are purpose-built or general-purpose API gateways with AI extensions (Kong, Azure APIM), one is an LLM-native open-source proxy (LiteLLM), and one is a combination of a general-purpose API gateway and a managed model service (AWS API Gateway + Amazon Bedrock).
 
+## Why an AI Gateway Matters
+
+As organizations move from a single LLM integration to dozens of models, providers, and agentic workflows, calling model APIs directly from application code stops scaling. An AI gateway becomes the control plane that makes that growth manageable:
+
+- **Vendor flexibility, without rewrites.** A unified interface in front of OpenAI, Anthropic, Bedrock, Azure OpenAI, and others means teams can swap or add models — or fail over to a backup provider during an outage — without touching application code.
+- **Cost control.** Token-aware rate limiting, per-team/per-project budgets, and semantic caching turn unpredictable LLM spend into something that can be capped, attributed, and forecasted — increasingly important as usage scales past a handful of pilot projects.
+- **Security and compliance.** Centralized authentication, virtual/scoped API keys, prompt-injection detection, PII redaction, and content-safety guardrails give security teams one enforcement point instead of trusting every application team to implement these controls independently.
+- **Reliability at scale.** Load balancing, retries, and fallback routing across models and regions reduce the blast radius of a single provider's rate limits, latency spikes, or downtime.
+- **Observability and governance.** Centralized logging, tracing, and usage dashboards make it possible to answer basic questions — who is calling which model, how often, at what cost, with what latency — that are otherwise scattered across dozens of ad hoc integrations.
+- **A single policy point for agents.** As agentic and MCP-based workloads grow, a gateway is where tool access, agent-to-agent traffic, and autonomous model calls can be governed consistently, rather than bolted onto each agent framework separately.
+
+In short, the AI gateway is what turns a collection of point-to-point LLM integrations into a governed, observable, cost-controlled platform — which is why it's increasingly treated as foundational infrastructure rather than an optional add-on.
+
 ## 1. Overview
 
 | | Kong AI Gateway | LiteLLM | AWS API Gateway + Bedrock | Azure API Management (AI Gateway) |
