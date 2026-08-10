@@ -79,7 +79,7 @@ body {
 }
 
 .wrap {
-  max-width: 800px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -598,6 +598,18 @@ main.wrap {
   font-size: 1.03rem;
 }
 
+/* Keep prose at a comfortable reading width, but let tables and code
+   blocks use the full post column so wide comparison tables have room
+   to breathe without horizontal scrolling. */
+.post-content > p,
+.post-content > ul,
+.post-content > ol,
+.post-content > h2,
+.post-content > h3,
+.post-content > blockquote {
+  max-width: 760px;
+}
+
 .post-content h2 {
   font-family: var(--font-head);
   color: var(--text);
@@ -636,9 +648,12 @@ main.wrap {
   display: block;
   overflow-x: auto;
   width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   margin: 24px 0;
-  font-size: 0.9rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
@@ -647,16 +662,19 @@ main.wrap {
   background: var(--bg-elevated-2);
   color: var(--text);
   text-align: left;
-  padding: 10px 14px;
-  white-space: nowrap;
+  padding: 8px 12px;
+  white-space: normal;
+  word-wrap: break-word;
   font-family: var(--font-head);
   font-weight: 600;
 }
 
 .post-content td {
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-top: 1px solid var(--border);
   vertical-align: top;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .post-content tr:nth-child(even) td {
