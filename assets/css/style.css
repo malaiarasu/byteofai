@@ -713,8 +713,11 @@ main.wrap {
 .post-content .highlight .o, .post-content .highlight .p { color: #e5e9f0; }
 
 .post-content img {
+  display: block;
   max-width: 100%;
-  border-radius: var(--radius-sm);
+  margin: 28px 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
 }
 
 .post-content a {

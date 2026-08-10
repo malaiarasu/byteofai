@@ -8,9 +8,13 @@ excerpt: "A comparison of Kong AI Gateway, LiteLLM, AWS API Gateway + Bedrock, a
 
 ## Introduction
 
+![A gateway hub routing traffic from an application to multiple AI model providers](/assets/images/ai-gateway-hero.jpg)
+
 AI gateways sit between applications and large language model (LLM) backends, handling routing, authentication, rate limiting, observability, caching, and safety controls for generative AI traffic. This comparison looks at four options that take different approaches: two are purpose-built or general-purpose API gateways with AI extensions (Kong, Azure APIM), one is an LLM-native open-source proxy (LiteLLM), and one is a combination of a general-purpose API gateway and a managed model service (AWS API Gateway + Amazon Bedrock).
 
 ## Why an AI Gateway Matters
+
+![A shield representing governance, connected to security, cost control, and observability](/assets/images/ai-gateway-governance.jpg)
 
 As organizations move from a single LLM integration to dozens of models, providers, and agentic workflows, calling model APIs directly from application code stops scaling. An AI gateway becomes the control plane that makes that growth manageable:
 
