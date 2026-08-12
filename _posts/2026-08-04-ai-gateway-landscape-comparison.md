@@ -36,6 +36,8 @@ In short, the AI gateway is what turns a collection of point-to-point LLM integr
 
 ## 2. Feature Comparison
 
+> **A snapshot in time.** The capabilities below reflect each product's specific version as of this article's publish date ({{ page.date | date: "%B %-d, %Y" }}) — for example, Kong's load-balancing algorithms as shipped in AI Gateway 3.8, and Azure APIM's unified model API while still in public preview. The AI gateway space is moving quickly: preview features graduate to general availability, plugins get renamed or merged, and new capabilities ship every few months. Treat this table as a starting point and re-check each vendor's current documentation and release notes before making a decision.
+
 | Capability | Kong AI Gateway | LiteLLM | AWS API Gateway + Bedrock | Azure APIM AI Gateway |
 |---|---|---|---|---|
 | Multi-provider routing | Yes — AI Proxy plugin supports 15+ providers (OpenAI, Bedrock, Azure OpenAI, Gemini, etc.) | Yes — core feature; unified OpenAI-compatible interface across 100+ providers | Primarily Bedrock's own model catalog (Anthropic, Meta, Amazon, Mistral, etc.); cross-provider needs custom integration | Yes — unified model API (preview) exposes multiple backends via one OpenAI-compatible endpoint |
