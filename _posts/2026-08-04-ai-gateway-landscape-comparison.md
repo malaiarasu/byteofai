@@ -51,12 +51,22 @@ In short, the AI gateway is what turns a collection of point-to-point LLM integr
 
 ## 3. Architecture & Deployment
 
-![Animated diagram of a request flowing from an application through an AI gateway to a model, a neural network, and backend servers](/assets/images/ai-gateway-flow.gif)
+**Kong AI Gateway** runs as an extension of Kong Gateway (data plane + control plane). Self-hosted deployments give full control over infrastructure; Konnect offers a managed control plane with self-hosted or cloud data planes. AI plugins (semantic cache, prompt guard, RAG injector) rely on a Redis vector database for embeddings-based features.
 
-- **Kong AI Gateway** runs as an extension of Kong Gateway (data plane + control plane). Self-hosted deployments give full control over infrastructure; Konnect offers a managed control plane with self-hosted or cloud data planes. AI plugins (semantic cache, prompt guard, RAG injector) rely on a Redis vector database for embeddings-based features.
-- **LiteLLM** is a lightweight proxy process that can run as a single container, behind Kubernetes with autoscaling, or via the official Helm chart/Terraform module. It uses Postgres for persistence (keys, budgets, logs) and Redis for caching — intentionally minimal, optimized for fast startup and low operational overhead.
-- **AWS API Gateway + Bedrock**: API Gateway is a fully managed, serverless entry point (REST/HTTP/WebSocket APIs) that can front Lambda functions calling Bedrock, or integrate directly with Bedrock via service integrations. Bedrock itself is a managed model-serving layer within your VPC, governed by IAM, KMS, and CloudTrail — no servers to manage, but AI-specific gateway behaviors (routing, caching, token limiting) generally have to be assembled from multiple AWS services rather than configured out of the box.
-- **Azure API Management** is a managed API gateway with a new dedicated AI Gateway tier (public preview) that adds a purpose-built portal (organized around models, MCP servers, and tools) and policy cards instead of raw XML policy authoring. Semantic caching and other AI policies plug into Azure Managed Redis. Inbound Private Link and outbound VNet integration are available in preview for network isolation.
+![Kong AI Gateway architecture: client through Kong Gateway data plane and AI plugins to LLM providers, with Konnect control plane and Redis vector DB](/assets/images/architecture-kong.png)
+
+**LiteLLM** is a lightweight proxy process that can run as a single container, behind Kubernetes with autoscaling, or via the official Helm chart/Terraform module. It uses Postgres for persistence (keys, budgets, logs) and Redis for caching — intentionally minimal, optimized for fast startup and low operational overhead.
+
+![LiteLLM architecture: client through the LiteLLM proxy to OpenAI, Anthropic, Bedrock, and Azure OpenAI, backed by Postgres and Redis](/assets/images/architecture-litellm.png)
+
+**AWS API Gateway + Bedrock**: API Gateway is a fully managed, serverless entry point (REST/HTTP/WebSocket APIs) that can front Lambda functions calling Bedrock, or integrate directly with Bedrock via service integrations. Bedrock itself is a managed model-serving layer within your VPC, governed by IAM, KMS, and CloudTrail — no servers to manage, but AI-specific gateway behaviors (routing, caching, token limiting) generally have to be assembled from multiple AWS services rather than configured out of the box.
+
+![AWS API Gateway and Bedrock architecture: client through Route 53 and API Gateway, authorized by a Lambda authorizer, forwarded by a Lambda integration to Amazon Bedrock](/assets/images/architecture-aws-bedrock.png)
+*Adapted from the reference pattern in the [AWS Architecture Blog: Building an AI gateway to Amazon Bedrock with Amazon API Gateway](https://aws.amazon.com/blogs/architecture/building-an-ai-gateway-to-amazon-bedrock-with-amazon-api-gateway/).*
+
+**Azure API Management** is a managed API gateway with a new dedicated AI Gateway tier (public preview) that adds a purpose-built portal (organized around models, MCP servers, and tools) and policy cards instead of raw XML policy authoring. Semantic caching and other AI policies plug into Azure Managed Redis. Inbound Private Link and outbound VNet integration are available in preview for network isolation.
+
+![Azure API Management AI Gateway architecture: client through Private Link and API Management to Azure OpenAI via VNet integration, with Azure Managed Redis for semantic caching](/assets/images/architecture-azure-apim.png)
 
 ## 4. Pricing Snapshot
 
