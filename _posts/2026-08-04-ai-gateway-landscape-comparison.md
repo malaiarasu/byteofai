@@ -78,7 +78,7 @@ Pricing structures differ enough that direct comparison requires care — some v
 |---|---|---|
 | Kong AI Gateway | Usage-based (requests + features); self-hosted Enterprise vs. Konnect cloud tiers | Enterprise contracts commonly $40K–$250K+/yr; consumption plans can run ~$2,625/mo in service fees alone for a modest footprint (20 services, 5 LLM integrations), before request volume. Price increase scheduled Sept 1, 2026. |
 | LiteLLM | Free OSS tier; paid Pro; quote-based Enterprise | Free (self-hosted OSS); Pro at $499/mo (up to 1M requests + enterprise features); self-hosted proxy compute alone can run ~$0.05–0.10/hr plus DB/observability costs. |
-| AWS API Gateway + Bedrock | Per-token model inference (Bedrock) + per-request/data transfer (API Gateway) | Bedrock: ~$0.035 per 1M input tokens (Nova Micro) up to ~$75 per 1M output tokens (Claude Opus-class); provisioned throughput saves ~15–30% with 1- or 6-month commitments; AgentCore Gateway is pay-per-invocation (est. $0.01–0.05 per 1,000 requests) plus Lambda/API Gateway costs. |
+| AWS API Gateway + Bedrock | Per-token model inference (Bedrock) + per-request/data transfer (API Gateway) | Bedrock: ~$0.035 per 1M input tokens (Nova Micro) up to ~$75 per 1M output tokens (Claude Opus-class); provisioned throughput saves ~15–30% with 1- or 6-month commitments. |
 | Azure API Management (AI Gateway) | Fixed per-unit monthly fee for APIM + separate model, networking, logging, security costs | APIM capacity units commonly quoted upwards of $2,700/unit/month, independent of usage; AI Gateway tier is in public preview with evolving pricing. |
 
 ## 5. Strengths & Trade-offs
