@@ -29,6 +29,21 @@ layout: default
       {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
     </div>
     {% endif %}
+
+    {% assign share_url = page.url | absolute_url %}
+    <div class="share-row">
+      <span class="share-label">Share</span>
+      <a class="icon-link" href="https://twitter.com/intent/tweet?url={{ share_url | url_encode }}&amp;text={{ page.title | url_encode }}" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.9 2H22l-7.4 8.5L23 22h-6.9l-5.4-6.9L4.6 22H1.5l7.9-9L1 2h7l4.9 6.3L18.9 2Zm-2.4 18h1.9L7.6 4H5.6l10.9 16Z"/></svg>
+      </a>
+      <a class="icon-link" href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url | url_encode }}" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8.75h4V23h-4V8.75ZM8.5 8.75h3.83v1.95h.05c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.14V23h-4v-6.55c0-1.56-.03-3.57-2.18-3.57-2.18 0-2.51 1.7-2.51 3.46V23h-4V8.75Z"/></svg>
+      </a>
+      <button type="button" class="icon-link share-copy" data-share-url="{{ share_url }}" aria-label="Copy link" title="Copy link">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15 15 9M11 6l1-1a3.5 3.5 0 0 1 5 5l-1 1M13 18l-1 1a3.5 3.5 0 0 1-5-5l1-1"/></svg>
+      </button>
+      <span class="share-copied-msg" role="status" aria-live="polite"></span>
+    </div>
   </header>
 
   <div class="post-content">

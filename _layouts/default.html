@@ -107,5 +107,8 @@
   </div>
 
   <script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
+  {% if page.layout == 'post' %}
+  <script src="{{ '/assets/js/share.js' | relative_url }}" defer></script>
+  {% endif %}
 </body>
 </html>

@@ -593,6 +593,38 @@ main.wrap {
   margin: 0 0 10px;
 }
 
+.share-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 0;
+}
+
+.share-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin-right: 2px;
+}
+
+.share-row .icon-link {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+}
+
+.share-copy {
+  background: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.share-copied-msg {
+  font-size: 0.8rem;
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
 .post-content {
   margin-top: 32px;
   font-size: 1.03rem;
