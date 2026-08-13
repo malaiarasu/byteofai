@@ -12,7 +12,7 @@ AI gateways sit between applications and large language model (LLM) backends, ha
 
 ## Why an AI Gateway Matters
 
-![A shield representing governance, connected to security, cost control, and observability](/assets/images/ai-gateway-governance.jpg)
+![Animated diagram of an AI gateway hub cycling through its six core benefits: vendor flexibility, cost control, security and compliance, reliability at scale, observability and governance, and agent policy control](/assets/images/ai-gateway-governance.gif)
 
 As organizations move from a single LLM integration to dozens of models, providers, and agentic workflows, calling model APIs directly from application code stops scaling. An AI gateway becomes the control plane that makes that growth manageable:
 
