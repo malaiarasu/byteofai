@@ -22,8 +22,6 @@ This is a field guide to nine patterns that show up again and again in agentic s
 8. [Orchestrator-Workers](#8-orchestrator-workers)
 9. [Evaluator-Optimizer](#9-evaluator-optimizer)
 
-Each section below explains how the pattern works, walks through a concrete example, includes a short illustrative code sketch, and has a self-contained animated diagram — the diagrams are plain SVG with CSS animation (no video, no JS), so they loop automatically wherever they're embedded.
-
 A note on the code: every snippet is deliberately framework-agnostic pseudocode-ish Python — plain functions calling a `llm(prompt)` and, where relevant, a `call_tool(name, args)` helper. The point is to show the *shape* of the control flow, not to hand you a production-ready integration with a specific SDK.
 
 ## 1. Prompt Chaining
