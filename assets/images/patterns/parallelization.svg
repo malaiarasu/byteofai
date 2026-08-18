@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Parallelization diagram: a task fans out to three workers running at the same time, whose results are merged by an aggregator">
+  <title>Parallelization</title>
+  <defs>
+    <marker id="paArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10.5px;fill:#6b6456;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#paArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-24;}}
+    .tok{fill:#ff7722;}
+    .t1{animation:toW1 6s linear infinite;}
+    .t2{animation:toW2 6s linear infinite;}
+    .t3{animation:toW3 6s linear infinite;}
+    @keyframes toW1{
+      0%{transform:translate(0,0);opacity:0;} 3%{opacity:1;}
+      30%{transform:translate(107px,-90px);}
+      33%{opacity:1;}
+      60%{transform:translate(327px,0px);opacity:1;}
+      63%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes toW2{
+      0%{transform:translate(0,0);opacity:0;} 3%{opacity:1;}
+      30%{transform:translate(107px,0px);}
+      60%{transform:translate(327px,0px);opacity:1;}
+      63%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes toW3{
+      0%{transform:translate(0,0);opacity:0;} 3%{opacity:1;}
+      30%{transform:translate(107px,90px);}
+      33%{opacity:1;}
+      60%{transform:translate(327px,0px);opacity:1;}
+      63%{opacity:0;} 100%{opacity:0;}
+    }
+  </style>
+  <rect class="bg" x="1" y="1" width="638" height="298" rx="14"/>
+
+  <rect class="node" x="22" y="122" width="96" height="56" rx="10"/>
+  <text class="lbl" x="70" y="146" text-anchor="middle">Task</text>
+  <text class="sub" x="70" y="162" text-anchor="middle">splittable job</text>
+
+  <rect class="node" x="225" y="32" width="110" height="56" rx="10"/>
+  <text class="lbl" x="280" y="56" text-anchor="middle">Worker 1</text>
+  <text class="sub" x="280" y="72" text-anchor="middle">chunk A</text>
+
+  <rect class="node" x="225" y="122" width="110" height="56" rx="10"/>
+  <text class="lbl" x="280" y="146" text-anchor="middle">Worker 2</text>
+  <text class="sub" x="280" y="162" text-anchor="middle">chunk B</text>
+
+  <rect class="node" x="225" y="212" width="110" height="56" rx="10"/>
+  <text class="lbl" x="280" y="236" text-anchor="middle">Worker 3</text>
+  <text class="sub" x="280" y="252" text-anchor="middle">chunk C</text>
+
+  <rect class="node" x="445" y="122" width="112" height="56" rx="10"/>
+  <text class="lbl" x="501" y="146" text-anchor="middle">Aggregator</text>
+  <text class="sub" x="501" y="162" text-anchor="middle">merge results</text>
+
+  <path class="arrow" d="M118,150 L225,60"/>
+  <path class="arrow" d="M118,150 H225"/>
+  <path class="arrow" d="M118,150 L225,240"/>
+
+  <path class="arrow" d="M335,60 L445,145"/>
+  <path class="arrow" d="M335,150 H445"/>
+  <path class="arrow" d="M335,240 L445,155"/>
+
+  <circle class="tok t1" cx="118" cy="150" r="7"/>
+  <circle class="tok t2" cx="118" cy="150" r="7"/>
+  <circle class="tok t3" cx="118" cy="150" r="7"/>
+</svg>

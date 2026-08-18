@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" role="img" aria-label="Planning diagram: a top-level goal decomposes into three subgoals, and one subgoal further decomposes into two concrete leaf actions">
+  <title>Planning via Goal Decomposition</title>
+  <defs>
+    <marker id="plArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .root{fill:#ffffff;stroke:#ff7722;stroke-width:2.5;}
+    .leaf{fill:#ffffff;stroke:#ffc765;stroke-width:2;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:12.5px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10px;fill:#6b6456;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#plArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-24;}}
+    .g0{animation:pulse 4s ease-in-out infinite;}
+    .g1{animation:pulse 4s ease-in-out infinite;animation-delay:1s;}
+    .g2{animation:pulse 4s ease-in-out infinite;animation-delay:2s;}
+    @keyframes pulse{0%,20%,100%{stroke-width:2;filter:none;}30%,40%{stroke-width:4;filter:drop-shadow(0 0 4px rgba(255,119,34,.5));}}
+  </style>
+  <rect class="bg" x="1" y="1" width="638" height="338" rx="14"/>
+
+  <rect class="root g0" x="264" y="20" width="112" height="56" rx="10"/>
+  <text class="lbl" x="320" y="44" text-anchor="middle">Goal</text>
+  <text class="sub" x="320" y="60" text-anchor="middle">plan a product launch</text>
+
+  <rect class="node g1" x="80" y="140" width="120" height="56" rx="10"/>
+  <text class="lbl" x="140" y="164" text-anchor="middle">Research market</text>
+  <text class="sub" x="140" y="180" text-anchor="middle">subgoal</text>
+
+  <rect class="node g1" x="260" y="140" width="120" height="56" rx="10"/>
+  <text class="lbl" x="320" y="164" text-anchor="middle">Build campaign</text>
+  <text class="sub" x="320" y="180" text-anchor="middle">subgoal</text>
+
+  <rect class="node g1" x="440" y="140" width="130" height="56" rx="10"/>
+  <text class="lbl" x="505" y="164" text-anchor="middle">Prepare launch day</text>
+  <text class="sub" x="505" y="180" text-anchor="middle">subgoal</text>
+
+  <rect class="leaf g2" x="220" y="256" width="110" height="48" rx="9"/>
+  <text class="lbl" x="275" y="284" text-anchor="middle">Write copy</text>
+
+  <rect class="leaf g2" x="360" y="256" width="110" height="48" rx="9"/>
+  <text class="lbl" x="415" y="284" text-anchor="middle">Design assets</text>
+
+  <path class="arrow" d="M290,76 L160,140"/>
+  <path class="arrow" d="M320,76 V140"/>
+  <path class="arrow" d="M355,76 L480,140"/>
+
+  <path class="arrow" d="M290,196 L280,256"/>
+  <path class="arrow" d="M350,196 L400,256"/>
+</svg>

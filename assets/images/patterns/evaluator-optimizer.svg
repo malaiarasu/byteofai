@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Evaluator-Optimizer diagram: a generator produces a candidate, an evaluator scores it and sends it back for revision, and the score improves each pass until the candidate is accepted">
+  <title>Evaluator-Optimizer</title>
+  <defs>
+    <marker id="eoArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .accept{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10px;fill:#6b6456;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#eoArrow);animation:dash 1s linear infinite;}
+    .revise{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:5 5;marker-end:url(#eoArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-20;}}
+    .tok{fill:#ff7722;}
+    .flow{animation:cflow 8s linear infinite;}
+    @keyframes cflow{
+      0%{transform:translate(0,0);opacity:0;}
+      2%{opacity:1;}
+      20%{transform:translate(220px,0);opacity:1;}
+      24%{opacity:0;}
+      26%{opacity:1;transform:translate(0,0);}
+      46%{transform:translate(220px,0);opacity:1;}
+      52%{opacity:0;}
+      54%{opacity:1;transform:translate(220px,0);}
+      70%{transform:translate(440px,-70px);opacity:1;}
+      74%{opacity:0;}
+      100%{opacity:0;}
+    }
+    .track{fill:#e6e1d2;}
+    .fill{fill:#ff7722;animation:score 8s linear infinite;}
+    @keyframes score{
+      0%,20%,26%{width:12px;}
+      46%,54%{width:52px;}
+      70%,74%{width:96px;}
+      100%{width:12px;}
+    }
+    .accGlow{animation:glow 8s linear infinite;}
+    @keyframes glow{0%,68%,100%{opacity:.25;}70%,95%{opacity:1;}}
+  </style>
+  <rect class="bg" x="1" y="1" width="638" height="298" rx="14"/>
+
+  <rect class="node" x="70" y="122" width="112" height="56" rx="10"/>
+  <text class="lbl" x="126" y="146" text-anchor="middle">Generator</text>
+  <text class="sub" x="126" y="162" text-anchor="middle">produces candidate</text>
+
+  <rect class="node" x="290" y="122" width="112" height="56" rx="10"/>
+  <text class="lbl" x="346" y="146" text-anchor="middle">Evaluator</text>
+  <text class="sub" x="346" y="162" text-anchor="middle">scores output</text>
+
+  <rect class="accept accGlow" x="500" y="46" width="120" height="56" rx="10"/>
+  <text class="lbl" x="560" y="70" text-anchor="middle">Accepted</text>
+  <text class="sub" x="560" y="86" text-anchor="middle">meets the bar</text>
+
+  <path class="arrow" d="M182,150 H290"/>
+  <path class="revise" d="M346,178 C 346,220 126,220 126,178"/>
+  <text class="sub" x="236" y="216" text-anchor="middle">revise</text>
+
+  <rect class="track" x="296" y="196" width="100" height="10" rx="5"/>
+  <rect class="fill" x="296" y="196" height="10" rx="5" width="12"/>
+
+  <circle class="tok flow" cx="126" cy="150" r="7"/>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-label="Prompt chaining diagram: a request flows through Extract, Summarize, and Draft stages to produce an output">
+  <title>Prompt Chaining</title>
+  <defs>
+    <marker id="pcArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10.5px;fill:#6b6456;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#pcArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-24;}}
+    .tok{fill:#ff7722;}
+    .flow{animation:flow 6s linear infinite;}
+    @keyframes flow{0%{transform:translateX(0);opacity:0;}5%{opacity:1;}95%{opacity:1;}100%{transform:translateX(530px);opacity:0;}}
+    .p0{animation:pulse 6s ease-in-out infinite;}
+    .p1{animation:pulse 6s ease-in-out infinite;animation-delay:1.2s;}
+    .p2{animation:pulse 6s ease-in-out infinite;animation-delay:2.4s;}
+    .p3{animation:pulse 6s ease-in-out infinite;animation-delay:3.6s;}
+    .p4{animation:pulse 6s ease-in-out infinite;animation-delay:4.8s;}
+    @keyframes pulse{0%,85%,100%{stroke-width:2;}5%,10%{stroke-width:4;}}
+  </style>
+  <rect class="bg" x="1" y="1" width="638" height="198" rx="14"/>
+
+  <rect class="node p0" x="10" y="72" width="90" height="56" rx="10"/>
+  <text class="lbl" x="55" y="96" text-anchor="middle">Input</text>
+  <text class="sub" x="55" y="112" text-anchor="middle">user request</text>
+
+  <path class="arrow" d="M100,100 H143"/>
+  <rect class="node p1" x="143" y="72" width="90" height="56" rx="10"/>
+  <text class="lbl" x="188" y="96" text-anchor="middle">Extract</text>
+  <text class="sub" x="188" y="112" text-anchor="middle">pull key facts</text>
+
+  <path class="arrow" d="M233,100 H275"/>
+  <rect class="node p2" x="275" y="72" width="90" height="56" rx="10"/>
+  <text class="lbl" x="320" y="96" text-anchor="middle">Summarize</text>
+  <text class="sub" x="320" y="112" text-anchor="middle">condense findings</text>
+
+  <path class="arrow" d="M365,100 H408"/>
+  <rect class="node p3" x="408" y="72" width="90" height="56" rx="10"/>
+  <text class="lbl" x="453" y="96" text-anchor="middle">Draft</text>
+  <text class="sub" x="453" y="112" text-anchor="middle">compose reply</text>
+
+  <path class="arrow" d="M498,100 H540"/>
+  <rect class="node p4" x="540" y="72" width="90" height="56" rx="10"/>
+  <text class="lbl" x="585" y="96" text-anchor="middle">Output</text>
+  <text class="sub" x="585" y="112" text-anchor="middle">final answer</text>
+
+  <circle class="tok flow" cx="10" cy="100" r="7"/>
+</svg>

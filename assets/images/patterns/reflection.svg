@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Reflection diagram: a generator drafts an answer, a critic reviews it and sends feedback back, and the cycle repeats until the answer is good enough">
+  <title>Reflection</title>
+  <defs>
+    <marker id="rfArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10.5px;fill:#6b6456;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#rfArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-24;}}
+    .draft{fill:#ff7722;}
+    .feedback{fill:#3d2fa9;}
+    .draftTok{animation:draftFlow 5s linear infinite;}
+    .fbTok{animation:fbFlow 5s linear infinite;}
+    @keyframes draftFlow{0%{transform:translateX(0);opacity:0;}4%{opacity:1;}36%{transform:translateX(160px);opacity:1;}40%{opacity:0;}100%{opacity:0;}}
+    @keyframes fbFlow{0%,50%{transform:translateX(0);opacity:0;}54%{opacity:1;}86%{transform:translateX(-160px);opacity:1;}90%{opacity:0;}100%{opacity:0;}}
+  </style>
+  <rect class="bg" x="1" y="1" width="638" height="218" rx="14"/>
+
+  <rect class="node" x="90" y="82" width="120" height="56" rx="10"/>
+  <text class="lbl" x="150" y="106" text-anchor="middle">Generator</text>
+  <text class="sub" x="150" y="122" text-anchor="middle">drafts answer</text>
+
+  <rect class="node" x="430" y="82" width="120" height="56" rx="10"/>
+  <text class="lbl" x="490" y="106" text-anchor="middle">Critic</text>
+  <text class="sub" x="490" y="122" text-anchor="middle">reviews &amp; scores</text>
+
+  <path class="arrow" d="M210,100 H430"/>
+  <text class="sub" x="320" y="90" text-anchor="middle">draft</text>
+
+  <path class="arrow" d="M430,128 H210"/>
+  <text class="sub" x="320" y="146" text-anchor="middle">feedback / revise</text>
+
+  <circle class="draft draftTok" cx="210" cy="100" r="7"/>
+  <circle class="feedback fbTok" cx="430" cy="128" r="7"/>
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Routing diagram: a router node classifies each request and sends it to one of three specialist agents, alternating between them over time">
+  <title>Routing</title>
+  <defs>
+    <marker id="rtArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .router{fill:#ffffff;stroke:#ff7722;stroke-width:2.5;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10.5px;fill:#6b6456;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#rtArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-24;}}
+    .tok{fill:#ff7722;}
+    .tokA{animation:flowA 9s linear infinite;}
+    .tokB{animation:flowB 9s linear infinite;}
+    .tokC{animation:flowC 9s linear infinite;}
+    @keyframes flowA{
+      0%{transform:translate(0,0);opacity:0;} 2%{opacity:1;}
+      14%{transform:translate(232px,0);}
+      28%{transform:translate(327px,-80px);opacity:1;}
+      31%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes flowB{
+      0%,33%{transform:translate(0,0);opacity:0;} 35%{opacity:1;}
+      47%{transform:translate(232px,0);}
+      61%{transform:translate(327px,0);opacity:1;}
+      64%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes flowC{
+      0%,66%{transform:translate(0,0);opacity:0;} 68%{opacity:1;}
+      80%{transform:translate(232px,0);}
+      94%{transform:translate(327px,80px);opacity:1;}
+      97%{opacity:0;} 100%{opacity:0;}
+    }
+  </style>
+  <rect class="bg" x="1" y="1" width="638" height="298" rx="14"/>
+
+  <rect class="node" x="22" y="122" width="96" height="56" rx="10"/>
+  <text class="lbl" x="70" y="146" text-anchor="middle">Request</text>
+  <text class="sub" x="70" y="162" text-anchor="middle">incoming query</text>
+
+  <polygon class="router" points="280,100 350,150 280,200 210,150"/>
+  <text class="lbl" x="280" y="146" text-anchor="middle">Router</text>
+  <text class="sub" x="280" y="162" text-anchor="middle">classifier</text>
+
+  <rect class="node" x="445" y="42" width="112" height="56" rx="10"/>
+  <text class="lbl" x="501" y="66" text-anchor="middle">Specialist A</text>
+  <text class="sub" x="501" y="82" text-anchor="middle">billing</text>
+
+  <rect class="node" x="445" y="122" width="112" height="56" rx="10"/>
+  <text class="lbl" x="501" y="146" text-anchor="middle">Specialist B</text>
+  <text class="sub" x="501" y="162" text-anchor="middle">technical</text>
+
+  <rect class="node" x="445" y="202" width="112" height="56" rx="10"/>
+  <text class="lbl" x="501" y="226" text-anchor="middle">Specialist C</text>
+  <text class="sub" x="501" y="242" text-anchor="middle">general</text>
+
+  <path class="arrow" d="M118,150 H210"/>
+  <path class="arrow" d="M350,150 L445,70"/>
+  <path class="arrow" d="M350,150 H445"/>
+  <path class="arrow" d="M350,150 L445,230"/>
+
+  <circle class="tok tokA" cx="118" cy="150" r="7"/>
+  <circle class="tok tokB" cx="118" cy="150" r="7"/>
+  <circle class="tok tokC" cx="118" cy="150" r="7"/>
+</svg>

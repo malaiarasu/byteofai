@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="Orchestrator diagram: a central orchestrator dispatches subtasks to three workers and collects their results back">
+  <title>Orchestrator-Workers</title>
+  <defs>
+    <marker id="orArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .hub{fill:#ffffff;stroke:#ff7722;stroke-width:2.5;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10.5px;fill:#6b6456;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#orArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-24;}}
+    .dtok{fill:#ff7722;}
+    .rtok{fill:#3d2fa9;}
+    .d1{animation:dispW1 8s linear infinite;}
+    .d2{animation:dispW2 8s linear infinite;}
+    .d3{animation:dispW3 8s linear infinite;}
+    .r1{animation:resW1 8s linear infinite;}
+    .r2{animation:resW2 8s linear infinite;}
+    .r3{animation:resW3 8s linear infinite;}
+    @keyframes dispW1{0%{transform:translate(0,0);opacity:0;}3%{opacity:1;}45%{transform:translate(-180px,160px);opacity:1;}48%{opacity:0;}100%{opacity:0;}}
+    @keyframes dispW2{0%{transform:translate(0,0);opacity:0;}3%{opacity:1;}45%{transform:translate(0px,160px);opacity:1;}48%{opacity:0;}100%{opacity:0;}}
+    @keyframes dispW3{0%{transform:translate(0,0);opacity:0;}3%{opacity:1;}45%{transform:translate(180px,160px);opacity:1;}48%{opacity:0;}100%{opacity:0;}}
+    @keyframes resW1{0%,50%{transform:translate(0,0);opacity:0;}53%{opacity:1;}92%{transform:translate(180px,-160px);opacity:1;}95%{opacity:0;}100%{opacity:0;}}
+    @keyframes resW2{0%,50%{transform:translate(0,0);opacity:0;}53%{opacity:1;}92%{transform:translate(0px,-160px);opacity:1;}95%{opacity:0;}100%{opacity:0;}}
+    @keyframes resW3{0%,50%{transform:translate(0,0);opacity:0;}53%{opacity:1;}92%{transform:translate(-180px,-160px);opacity:1;}95%{opacity:0;}100%{opacity:0;}}
+  </style>
+  <rect class="bg" x="1" y="1" width="638" height="318" rx="14"/>
+
+  <rect class="hub" x="264" y="32" width="112" height="56" rx="10"/>
+  <text class="lbl" x="320" y="56" text-anchor="middle">Orchestrator</text>
+  <text class="sub" x="320" y="72" text-anchor="middle">plans &amp; delegates</text>
+
+  <rect class="node" x="84" y="192" width="112" height="56" rx="10"/>
+  <text class="lbl" x="140" y="216" text-anchor="middle">Worker 1</text>
+  <text class="sub" x="140" y="232" text-anchor="middle">subtask A</text>
+
+  <rect class="node" x="264" y="192" width="112" height="56" rx="10"/>
+  <text class="lbl" x="320" y="216" text-anchor="middle">Worker 2</text>
+  <text class="sub" x="320" y="232" text-anchor="middle">subtask B</text>
+
+  <rect class="node" x="444" y="192" width="112" height="56" rx="10"/>
+  <text class="lbl" x="500" y="216" text-anchor="middle">Worker 3</text>
+  <text class="sub" x="500" y="232" text-anchor="middle">subtask C</text>
+
+  <path class="arrow" d="M280,88 L160,192"/>
+  <path class="arrow" d="M320,88 V192"/>
+  <path class="arrow" d="M360,88 L480,192"/>
+
+  <circle class="dtok d1" cx="320" cy="60" r="7"/>
+  <circle class="dtok d2" cx="320" cy="60" r="7"/>
+  <circle class="dtok d3" cx="320" cy="60" r="7"/>
+
+  <circle class="rtok r1" cx="140" cy="220" r="7"/>
+  <circle class="rtok r2" cx="320" cy="220" r="7"/>
+  <circle class="rtok r3" cx="500" cy="220" r="7"/>
+</svg>

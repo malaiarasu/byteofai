@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 420" role="img" aria-label="ReAct diagram: an agent cycles continuously through Thought, Action, and Observation steps, using each observation to inform the next thought">
+  <title>ReAct: Reason + Act</title>
+  <defs>
+    <marker id="reArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10px;fill:#6b6456;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#reArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-24;}}
+    .tok{fill:#ff7722;}
+    .loop{animation:loop 6s linear infinite;}
+    @keyframes loop{
+      0%{transform:translate(0,0);}
+      33%{transform:translate(160px,260px);}
+      66%{transform:translate(-160px,260px);}
+      100%{transform:translate(0,0);}
+    }
+    .n0{animation:pulse 6s ease-in-out infinite;}
+    .n1{animation:pulse 6s ease-in-out infinite;animation-delay:2s;}
+    .n2{animation:pulse 6s ease-in-out infinite;animation-delay:4s;}
+    @keyframes pulse{0%,10%,100%{stroke-width:2;}18%,26%{stroke-width:4;}}
+  </style>
+  <rect class="bg" x="1" y="1" width="478" height="418" rx="14"/>
+
+  <circle class="node n0" cx="240" cy="80" r="60"/>
+  <text class="lbl" x="240" y="76" text-anchor="middle">Thought</text>
+  <text class="sub" x="240" y="94" text-anchor="middle">reason about next step</text>
+
+  <circle class="node n1" cx="400" cy="340" r="60"/>
+  <text class="lbl" x="400" y="336" text-anchor="middle">Action</text>
+  <text class="sub" x="400" y="354" text-anchor="middle">call a tool</text>
+
+  <circle class="node n2" cx="80" cy="340" r="60"/>
+  <text class="lbl" x="80" y="336" text-anchor="middle">Observation</text>
+  <text class="sub" x="80" y="354" text-anchor="middle">read the result</text>
+
+  <path class="arrow" d="M272,131 L369,289"/>
+  <path class="arrow" d="M340,340 H140"/>
+  <path class="arrow" d="M111,289 L209,131"/>
+
+  <circle class="tok loop" cx="240" cy="80" r="8"/>
+</svg>
