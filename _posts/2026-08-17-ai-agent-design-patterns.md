@@ -3,14 +3,14 @@ title: "AI Agent Design Patterns: ReAct, Routing, Planning, and More"
 date: 2026-08-17
 topic: ai
 tags: [AI Agents, LLM Patterns, MCP, Agentic AI]
-excerpt: "A field guide to nine core AI agent design patterns — Prompt Chaining, Routing, Parallelization, Reflection, Tool Use (MCP), Planning, ReAct, Orchestrator, and Evaluator-Optimizer — each explained with a worked example, code sketch, and animated diagram."
+excerpt: "An examination of nine core AI agent design patterns — Prompt Chaining, Routing, Parallelization, Reflection, Tool Use (MCP), Planning, ReAct, Orchestrator, and Evaluator-Optimizer — each explained with a worked example, code sketch, and animated diagram."
 ---
 
 ## Introduction
 
-Most "AI agents" are really just a handful of recurring control-flow shapes wrapped around an LLM: chain steps together, branch to a specialist, fan work out and back in, let the model critique itself, call a tool, break a goal into sub-goals, loop until a check passes. Once you can name the shape, you can pick the simplest one that solves the problem instead of reaching for a heavyweight "autonomous agent" every time.
+Most systems described as "AI agents" are built from a small set of recurring control-flow patterns layered around a large language model: chaining steps together, routing to a specialist, fanning work out and back in, having the model critique its own output, invoking a tool, decomposing a goal into sub-goals, or looping until a check passes. Recognizing which pattern a problem calls for makes it possible to choose the simplest effective design, rather than defaulting to a heavyweight "autonomous agent" architecture for every task.
 
-This is a field guide to nine patterns that show up again and again in agentic systems:
+This article examines nine patterns that recur throughout agentic system design:
 
 1. [Prompt Chaining](#1-prompt-chaining)
 2. [Routing](#2-routing)
@@ -22,15 +22,15 @@ This is a field guide to nine patterns that show up again and again in agentic s
 8. [Orchestrator-Workers](#8-orchestrator-workers)
 9. [Evaluator-Optimizer](#9-evaluator-optimizer)
 
-A note on the code: every snippet is deliberately framework-agnostic pseudocode-ish Python — plain functions calling a `llm(prompt)` and, where relevant, a `call_tool(name, args)` helper. The point is to show the *shape* of the control flow, not to hand you a production-ready integration with a specific SDK.
+A note on the code samples: each snippet is written as framework-agnostic, pseudocode-style Python — plain functions that call an `llm(prompt)` helper and, where relevant, a `call_tool(name, args)` helper. The intent is to illustrate the shape of the control flow rather than to provide a production-ready integration with any particular SDK.
 
 ## 1. Prompt Chaining
 
-**How it works:** Break a task into an ordered sequence of smaller LLM calls, where each step's output becomes the next step's input. Because each step has a narrow, well-defined job, each one is easier to prompt well, easier to validate, and easier to debug than one giant "do everything" prompt. Optionally, you insert a programmatic check between steps (a schema check, a regex, a length limit) to fail fast before wasting a downstream call.
+**How it works:** The task is decomposed into an ordered sequence of smaller LLM calls, where each step's output becomes the next step's input. Because each step has a narrow, well-defined objective, it is easier to prompt accurately, validate, and debug than a single prompt attempting to handle the entire task. A programmatic check can optionally be inserted between steps — a schema check, a regular expression, a length limit — to fail fast before an unnecessary downstream call is made.
 
 ![Prompt chaining diagram: a request flows through Extract, Summarize, and Draft stages to produce an output](/assets/images/patterns/prompt-chaining.svg)
 
-**Example:** Turning a long customer email into a reply. Step 1 extracts the key facts (order number, complaint, sentiment). Step 2 summarizes those facts into a one-paragraph brief. Step 3 drafts a reply using that brief. Each step is a small, focused prompt rather than one prompt trying to read, reason, and write all at once.
+**Example:** Converting a long customer email into a reply. The first step extracts the key facts (order number, complaint, sentiment); the second summarizes those facts into a one-paragraph brief; the third drafts a reply from that brief. Each step is a small, focused prompt rather than a single prompt attempting to read, reason, and write in one pass.
 
 ```python
 def extract_facts(email: str) -> str:
@@ -48,15 +48,15 @@ def handle_email(email: str) -> str:
     return draft_reply(brief)
 ```
 
-**When to use it:** The task naturally decomposes into sequential sub-steps, each step benefits from a focused prompt, and you want an easy place to add validation gates between steps. Skip it when a single well-crafted prompt already does the job reliably — chaining adds latency and cost for every extra call.
+**When to use it:** Apply this pattern when a task naturally decomposes into sequential sub-steps, each step benefits from a focused prompt, and validation gates between steps are valuable. Avoid it when a single well-crafted prompt already performs reliably — each additional link in the chain adds latency and cost.
 
 ## 2. Routing
 
-**How it works:** A lightweight classifier step (often just a small/cheap LLM call, sometimes a plain rules engine) looks at the incoming request and decides which specialized downstream path — a specific prompt, tool, or agent — should handle it. Routing keeps each downstream path simple and focused instead of forcing one prompt to handle every possible request type.
+**How it works:** A lightweight classification step — often a small, low-cost LLM call, sometimes a rules-based engine — examines the incoming request and determines which specialized downstream path (a specific prompt, tool, or agent) should handle it. Routing keeps each downstream path simple and focused, rather than requiring a single prompt to handle every possible request type.
 
 ![Routing diagram: a router node classifies each request and sends it to one of three specialist agents, alternating between them over time](/assets/images/patterns/routing.svg)
 
-**Example:** A support inbox where a router reads each incoming ticket and sends billing questions to a "billing specialist" prompt (with billing FAQs and account-lookup tools), technical questions to a "technical specialist" prompt (with docs and diagnostics tools), and everything else to a general-purpose assistant.
+**Example:** In a support inbox, a router reads each incoming ticket and directs billing questions to a "billing specialist" prompt equipped with billing FAQs and account-lookup tools, technical questions to a "technical specialist" prompt equipped with documentation and diagnostic tools, and all other requests to a general-purpose assistant.
 
 ```python
 SPECIALISTS = {
@@ -74,15 +74,15 @@ def route(request: str) -> str:
     return handler(request)
 ```
 
-**When to use it:** Requests fall into a small number of distinct categories, each best served by a different prompt, tool set, or model (e.g. a cheap model for simple cases, a stronger model for complex ones). Skip it when there's really only one kind of request — routing adds an extra classification call for no benefit.
+**When to use it:** Apply this pattern when requests fall into a small number of distinct categories, each best served by a different prompt, tool set, or model — for example, a lower-cost model for simple cases and a stronger model for complex ones. Avoid it when requests are largely homogeneous, since routing then adds a classification call without a corresponding benefit.
 
 ## 3. Parallelization
 
-**How it works:** Split a task into independent sub-tasks, run them concurrently against the LLM (or across different models/prompts), then merge the results. Two common flavors: *sectioning* (each sub-task is a different piece of the problem, like reviewing different files) and *voting* (the same sub-task run multiple times to get an ensemble of independent judgments). Because the sub-tasks don't depend on each other, running them in parallel cuts wall-clock latency compared to doing them one after another.
+**How it works:** A task is split into independent sub-tasks, which are run concurrently against the LLM (or across different models or prompts) and then merged into a single result. Two common variants are *sectioning*, where each sub-task addresses a different part of the problem (such as reviewing different files), and *voting*, where the same sub-task is run multiple times to produce an ensemble of independent judgments. Because the sub-tasks do not depend on one another, running them in parallel reduces overall latency compared to executing them sequentially.
 
 ![Parallelization diagram: a task fans out to three workers running at the same time, whose results are merged by an aggregator](/assets/images/patterns/parallelization.svg)
 
-**Example:** Reviewing a pull request by running three independent LLM calls at once — one focused on security issues, one on performance, one on style/readability — then merging the three findings lists into a single review comment.
+**Example:** Reviewing a pull request by running three independent LLM calls concurrently — one focused on security, one on performance, and one on style and readability — then merging the three sets of findings into a single review comment.
 
 ```python
 import concurrent.futures
@@ -107,15 +107,15 @@ def review_pr(diff: str) -> str:
     return merge_findings(findings)
 ```
 
-**When to use it:** Sub-tasks are genuinely independent (no sub-task needs another's output) and either latency matters or you want multiple independent perspectives on the same input. Skip it when steps depend on each other's output — that's prompt chaining, not parallelization.
+**When to use it:** Apply this pattern when sub-tasks are genuinely independent — none requires another's output — and either latency is a concern or multiple independent perspectives on the same input are valuable. Avoid it when steps depend on one another's output; that scenario calls for prompt chaining, not parallelization.
 
 ## 4. Reflection
 
-**How it works:** After a generator produces a draft, a separate critic step (which can be the same model with a different prompt, or a different model entirely) reviews it against a rubric and returns feedback. The generator revises based on that feedback, and the cycle repeats — usually for a fixed number of rounds or until the critic reports no further issues. Separating "write" from "review" tends to catch mistakes that a single generation pass misses, because critique is an easier task than generation.
+**How it works:** After a generator produces a draft, a separate critic step — which may use the same model with a different prompt, or an entirely different model — reviews the draft against a rubric and returns feedback. The generator then revises based on that feedback, and the cycle repeats, typically for a fixed number of rounds or until the critic reports no further issues. Separating the writing step from the review step tends to catch errors that a single generation pass misses, since critiquing existing output is generally an easier task than producing it from scratch.
 
 ![Reflection diagram: a generator drafts an answer, a critic reviews it and sends feedback back, and the cycle repeats until the answer is good enough](/assets/images/patterns/reflection.svg)
 
-**Example:** Generating a SQL query from a natural-language question, then having a critic step check the query against the schema and the original question for correctness, and looping back to fix it if the critic finds an issue.
+**Example:** Generating a SQL query from a natural-language question, then having a critic step verify the query against the schema and the original question for correctness, looping back to correct it whenever the critic identifies an issue.
 
 ```python
 def generate_sql(question: str, schema: str) -> str:
@@ -138,15 +138,15 @@ def generate_with_reflection(question: str, schema: str, max_rounds: int = 3) ->
     return sql
 ```
 
-**When to use it:** Output quality matters more than latency/cost, and there's a clear rubric a critic can check against (correctness, tone, completeness). Skip it for simple, low-stakes generations where a first draft is good enough — every reflection round is an extra LLM call.
+**When to use it:** Apply this pattern when output quality matters more than latency or cost, and a clear rubric exists for the critic to evaluate against — correctness, tone, completeness. Avoid it for simple, low-stakes generations where a first draft is sufficient, since every reflection round adds an additional LLM call.
 
 ## 5. Tool Use (MCP)
 
-**How it works:** The agent doesn't just generate text — it can call external tools (a database, a search API, a calendar, an internal service) to fetch real data or take real actions, then incorporate the result into its next response. The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) standardizes this: an **MCP server** exposes a set of tools/resources over a common protocol, and any **MCP client** (embedded in the agent) can discover and call those tools without custom integration code per tool. This is what turns an agent from "a chatbot that talks about your data" into "a chatbot that can actually look at and act on your data."
+**How it works:** Rather than generating text alone, the agent can call external tools — a database, a search API, a calendar, an internal service — to retrieve current data or perform real actions, then incorporate the result into its next response. The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) standardizes this interaction: an **MCP server** exposes a set of tools and resources over a common protocol, and any **MCP client** embedded in the agent can discover and invoke those tools without custom integration code for each one. This is what distinguishes an agent that merely discusses an organization's data from one that can actually inspect and act on it.
 
 ![Tool use via MCP diagram: an agent asks an MCP client, which forwards the request to an MCP server that invokes a tool, and the result flows back to the agent](/assets/images/patterns/tool-use-mcp.svg)
 
-**Example:** An agent answering "What's the status of order #4821?" doesn't know the answer from training data — it calls a `lookup_order` tool exposed by an MCP server connected to the orders database, gets back the real record, and uses that to compose its answer.
+**Example:** An agent answering "What is the status of order #4821?" has no way to know the answer from its training data. It calls a `lookup_order` tool exposed by an MCP server connected to the orders database, receives the current record, and uses that data to compose its answer.
 
 ```python
 # The agent asks the model which tool (if any) it wants to call.
@@ -162,15 +162,15 @@ def agent_step(user_message: str, mcp_client) -> str:
     return llm(f"User asked: {user_message}\nTool result: {result}\nAnswer using this data.")
 ```
 
-**When to use it:** The agent needs current, private, or actionable data that isn't in the model's training data — records, live metrics, the ability to send an email or create a ticket. Skip it for tasks that are pure reasoning/writing over information already in the prompt; adding tools you don't need adds latency and failure surface for no benefit.
+**When to use it:** Apply this pattern when the agent needs current, private, or actionable data that is not present in the model's training data — records, live metrics, or the ability to send an email or open a ticket. Avoid it for tasks that are pure reasoning or writing over information already present in the prompt; unnecessary tools add latency and failure surface without a corresponding benefit.
 
 ## 6. Planning (Goal Decomposition)
 
-**How it works:** Before doing any work, the agent first breaks a high-level goal into an explicit plan — a tree or list of sub-goals, and for at least one level, further decomposes those into concrete, executable steps. This planning step can happen once up front, or be revisited as sub-goals complete and new information changes what's needed. It's the difference between "figure it out step by step as you go" (which ReAct does reactively) and "lay out the whole approach before starting."
+**How it works:** Before any work begins, the agent first decomposes a high-level goal into an explicit plan — a tree or list of sub-goals, with at least one level further broken down into concrete, executable steps. This planning step may occur once at the outset, or be revisited as sub-goals are completed and new information changes what remains necessary. The distinction from ReAct, which determines its next step reactively, is that planning lays out the full approach before execution begins.
 
 ![Planning diagram: a top-level goal decomposes into three subgoals, and one subgoal further decomposes into two concrete leaf actions](/assets/images/patterns/planning-decomposition.svg)
 
-**Example:** Given the goal "plan a product launch," the agent first decomposes it into subgoals (research the market, build the campaign, prepare launch day), and then decomposes "build the campaign" further into concrete actions (write copy, design assets) before any of those actions are actually executed.
+**Example:** Given the goal "plan a product launch," the agent first decomposes it into subgoals — research the market, build the campaign, prepare launch day — and then further decomposes "build the campaign" into concrete actions, such as writing copy and designing assets, before any action is executed.
 
 ```python
 def make_plan(goal: str) -> list[str]:
@@ -186,15 +186,15 @@ def plan_goal(goal: str) -> dict[str, list[str]]:
     return {sg: decompose_further(sg) for sg in subgoals}
 ```
 
-**When to use it:** The task is complex enough that jumping straight into execution risks missing dependencies or doing things out of order — multi-step projects, research tasks, anything where "know the whole shape before you start" matters. Skip it for simple, single-step or highly reactive tasks, where planning is pure overhead.
+**When to use it:** Apply this pattern when a task is complex enough that proceeding directly to execution risks missing dependencies or performing steps out of order — multi-step projects, research tasks, or any scenario where understanding the full scope before beginning is important. Avoid it for simple, single-step, or highly reactive tasks, where the planning step is pure overhead.
 
 ## 7. ReAct (Reason + Act)
 
-**How it works:** ReAct interleaves reasoning and acting in a tight loop: the agent produces a **Thought** (what should I do next, and why), takes an **Action** (usually a tool call), receives an **Observation** (the tool's result), and feeds that observation into the next Thought — repeating until it has enough information to give a final answer. Unlike Planning, which lays out steps up front, ReAct decides its next move one step at a time based on what it just learned, which makes it well-suited to tasks where you can't know the right next step until you see the previous result.
+**How it works:** ReAct interleaves reasoning and acting in a tight loop: the agent produces a **Thought** (a determination of what to do next and why), takes an **Action** (typically a tool call), receives an **Observation** (the tool's result), and feeds that observation into the next Thought — repeating until it has sufficient information to produce a final answer. Unlike Planning, which lays out steps in advance, ReAct determines its next move one step at a time based on what it has just learned, making it well-suited to tasks where the correct next step cannot be known until the previous result is observed.
 
 ![ReAct diagram: an agent cycles continuously through Thought, Action, and Observation steps, using each observation to inform the next thought](/assets/images/patterns/react.svg)
 
-**Example:** Answering "How much did we spend on cloud infra last quarter, and is that up or down from the prior quarter?" The agent thinks "I need this quarter's spend first," calls a `get_spend` tool, observes the number, thinks "now I need last quarter's number to compare," calls the tool again, observes that number, and only then reasons about the comparison and answers.
+**Example:** Answering "How much did we spend on cloud infrastructure last quarter, and is that up or down from the prior quarter?" The agent first reasons that it needs the current quarter's spend, calls a `get_spend` tool, and observes the result; it then reasons that it needs the prior quarter's figure for comparison, calls the tool again, and observes that result — only then reasoning about the comparison and producing an answer.
 
 ```python
 def react_loop(question: str, tools: dict, max_steps: int = 6) -> str:
@@ -214,15 +214,15 @@ def react_loop(question: str, tools: dict, max_steps: int = 6) -> str:
     return "Could not reach a final answer within the step budget."
 ```
 
-**When to use it:** The task requires multiple tool calls where each next step genuinely depends on the previous result, and you can't fully plan it in advance. Skip it for single-tool-call tasks (that's just Tool Use) or fully known step sequences (that's Prompt Chaining or Planning) — ReAct's flexibility costs extra LLM calls per step.
+**When to use it:** Apply this pattern when a task requires multiple tool calls where each step genuinely depends on the previous result, such that it cannot be fully planned in advance. Avoid it for single-tool-call tasks (a plain Tool Use pattern suffices) or fully known step sequences (Prompt Chaining or Planning is more appropriate) — ReAct's flexibility comes at the cost of additional LLM calls per step.
 
 ## 8. Orchestrator-Workers
 
-**How it works:** A central orchestrator agent analyzes the incoming task, decides how to break it into subtasks, dynamically dispatches those subtasks to worker agents (which may run in parallel), and synthesizes their results into a final answer. It looks similar to Parallelization, but the key difference is *who decides the split*: in Parallelization the sub-tasks are usually fixed ahead of time (e.g. "always run these three reviewers"), while in Orchestrator-Workers the orchestrator itself decides — at runtime, based on the specific input — how many workers to spin up and what each one should do.
+**How it works:** A central orchestrator agent analyzes the incoming task, determines how to divide it into subtasks, dynamically dispatches those subtasks to worker agents (which may run in parallel), and synthesizes their results into a final answer. This resembles Parallelization, but the key distinction is *who determines the division of work*: in Parallelization, sub-tasks are typically fixed in advance (for example, "always run these three reviewers"), whereas in Orchestrator-Workers, the orchestrator itself decides at runtime — based on the specific input — how many workers to instantiate and what each should do.
 
 ![Orchestrator diagram: a central orchestrator dispatches subtasks to three workers and collects their results back](/assets/images/patterns/orchestrator.svg)
 
-**Example:** A "research this topic" agent where the orchestrator reads the topic, decides it needs three angles of research (say, market size, competitors, and regulatory risk — a different split for a different topic), spins up a worker for each, and combines their findings into one report.
+**Example:** A research agent in which the orchestrator reads the topic, determines that three angles of research are needed — for example, market size, competitors, and regulatory risk, with a different division for a different topic — instantiates a worker for each, and combines their findings into a single report.
 
 ```python
 def orchestrate(task: str) -> str:
@@ -240,15 +240,15 @@ def run_worker(subtask: str) -> str:
     return llm(f"Research and answer this subtask thoroughly:\n{subtask}")
 ```
 
-**When to use it:** The subtasks aren't knowable in advance — they depend on the specific input — so a fixed pipeline won't fit every case, but you still want the parallelism/isolation benefits of dividing the work. Skip it when the same fixed decomposition works for every input; hardcode that split (plain Parallelization) instead of paying for an extra LLM call to "discover" it every time.
+**When to use it:** Apply this pattern when the required subtasks cannot be known in advance — they depend on the specific input — such that a fixed pipeline will not fit every case, while the parallelism and isolation benefits of dividing the work are still desired. Avoid it when the same fixed decomposition works for every input; in that case, hardcode the split as plain Parallelization rather than paying for an additional LLM call to determine it each time.
 
 ## 9. Evaluator-Optimizer
 
-**How it works:** A generator produces a candidate solution, an evaluator scores it against explicit criteria and returns structured feedback (pass/fail plus reasons, or a numeric score), and — if it doesn't meet the bar — the generator revises using that feedback. This repeats until the evaluator accepts the result or a retry budget is exhausted. It looks like Reflection, but Evaluator-Optimizer is typically more structured: the evaluator applies a fixed, checkable rubric (tests pass, length under N words, matches required format) rather than open-ended critique, which makes it a good fit for tasks with a clear, verifiable definition of "good enough."
+**How it works:** A generator produces a candidate solution, an evaluator scores it against explicit criteria and returns structured feedback — a pass/fail determination with reasons, or a numeric score — and, if the candidate does not meet the bar, the generator revises it using that feedback. This repeats until the evaluator accepts the result or a retry budget is exhausted. The pattern resembles Reflection, but is typically more structured: the evaluator applies a fixed, checkable rubric — tests pass, length under a specified limit, format compliance — rather than open-ended critique, making it well-suited to tasks with a clear, verifiable definition of success.
 
 ![Evaluator-Optimizer diagram: a generator produces a candidate, an evaluator scores it and sends it back for revision, and the score improves each pass until the candidate is accepted](/assets/images/patterns/evaluator-optimizer.svg)
 
-**Example:** Generating a piece of code to pass a given unit test suite: the generator writes an implementation, the evaluator actually *runs the tests* (a deterministic, verifiable check — not another LLM opinion) and reports which ones failed, and the generator revises the implementation until all tests pass or a retry limit is hit.
+**Example:** Generating code to pass a given unit test suite: the generator writes an implementation, the evaluator runs the tests — a deterministic, verifiable check rather than a further LLM judgment — and reports which ones failed, and the generator revises the implementation until all tests pass or a retry limit is reached.
 
 ```python
 def generate_optimize(spec: str, tests: list[callable], max_attempts: int = 4) -> str:
@@ -265,7 +265,7 @@ def generate_optimize(spec: str, tests: list[callable], max_attempts: int = 4) -
     return code  # return best-effort after exhausting the retry budget
 ```
 
-**When to use it:** There's a clear, checkable success criterion (tests, a validator, a scoring rubric) and the cost of a few extra generate-evaluate rounds is worth the reliability gain. Skip it when "good enough" is subjective and there's no way to score a candidate objectively — that's a better fit for Reflection's open-ended critique.
+**When to use it:** Apply this pattern when a clear, checkable success criterion exists — tests, a validator, a scoring rubric — and the cost of additional generate-evaluate rounds is justified by the reliability gained. Avoid it when "good enough" is subjective and no candidate can be scored objectively; Reflection's open-ended critique is better suited to that case.
 
 ## Choosing Between Them
 
@@ -281,7 +281,7 @@ def generate_optimize(spec: str, tests: list[callable], max_attempts: int = 4) -
 | Orchestrator-Workers | Subtask split can't be known until you see the specific input | Extra LLM call just to decide how to decompose the task |
 | Evaluator-Optimizer | A clear, checkable success criterion exists | Doesn't help when "good enough" can't be scored objectively |
 
-Most real agentic systems combine several of these rather than picking exactly one — a Router might send a request to an Orchestrator, whose workers each run a ReAct loop with Tool Use, with an Evaluator-Optimizer pass at the end to check the final answer against a rubric. Start from the simplest pattern that solves the problem, and only add another layer when you can point to the specific failure it fixes.
+Most production agentic systems combine several of these patterns rather than relying on a single one — for example, a Router might direct a request to an Orchestrator, whose workers each run a ReAct loop incorporating Tool Use, with an Evaluator-Optimizer pass applied at the end to check the final answer against a rubric. The recommended approach is to begin with the simplest pattern that solves the problem, adding further layers only when a specific, identifiable failure justifies the added complexity.
 
 ## Sources
 
