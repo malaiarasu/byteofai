@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="MCP and A2A used together diagram: an orchestrator agent talks to two peer agents over A2A, and each peer agent calls its own MCP server to use tools" >
+  <title>MCP + A2A: Complementary Layers</title>
+  <defs>
+    <marker id="taArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .hub{fill:#ffffff;stroke:#ff7722;stroke-width:2.5;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .toolNode{fill:#ffffff;stroke:#ffc765;stroke-width:2;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10px;fill:#6b6456;}
+    .tag{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;fill:#3d2fa9;}
+    .tagAlt{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;fill:#ff7722;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#taArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-24;}}
+    .req{fill:#ff7722;}
+    .res{fill:#3d2fa9;}
+    .reqA{animation:reqFlowA 8s linear infinite;}
+    .reqB{animation:reqFlowB 8s linear infinite;}
+    .resA{animation:resFlowA 8s linear infinite;}
+    .resB{animation:resFlowB 8s linear infinite;}
+    @keyframes reqFlowA{
+      0%{transform:translate(0,0);opacity:0;} 3%{opacity:1;}
+      30%{transform:translate(-166px,116px);opacity:1;}
+      55%{transform:translate(-166px,220px);opacity:1;}
+      58%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes reqFlowB{
+      0%{transform:translate(0,0);opacity:0;} 3%{opacity:1;}
+      30%{transform:translate(166px,116px);opacity:1;}
+      55%{transform:translate(166px,220px);opacity:1;}
+      58%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes resFlowA{
+      0%,60%{transform:translate(0,0);opacity:0;} 63%{opacity:1;}
+      85%{transform:translate(0,-104px);opacity:1;}
+      97%{transform:translate(166px,-220px);opacity:1;}
+      99%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes resFlowB{
+      0%,60%{transform:translate(0,0);opacity:0;} 63%{opacity:1;}
+      85%{transform:translate(0,-104px);opacity:1;}
+      97%{transform:translate(-166px,-220px);opacity:1;}
+      99%{opacity:0;} 100%{opacity:0;}
+    }
+  </style>
+  <rect class="bg" x="1" y="1" width="638" height="318" rx="14"/>
+
+  <rect class="hub" x="264" y="24" width="112" height="56" rx="10"/>
+  <text class="lbl" x="320" y="48" text-anchor="middle">Orchestrator Agent</text>
+  <text class="sub" x="320" y="64" text-anchor="middle">A2A client</text>
+
+  <rect class="node" x="88" y="140" width="132" height="56" rx="10"/>
+  <text class="lbl" x="154" y="163" text-anchor="middle">Peer Agent A</text>
+  <text class="sub" x="154" y="179" text-anchor="middle">A2A remote agent</text>
+
+  <rect class="node" x="420" y="140" width="132" height="56" rx="10"/>
+  <text class="lbl" x="486" y="163" text-anchor="middle">Peer Agent B</text>
+  <text class="sub" x="486" y="179" text-anchor="middle">A2A remote agent</text>
+
+  <rect class="toolNode" x="94" y="248" width="120" height="48" rx="9"/>
+  <text class="lbl" x="154" y="270" text-anchor="middle">MCP Server</text>
+  <text class="sub" x="154" y="285" text-anchor="middle">A's tools</text>
+
+  <rect class="toolNode" x="426" y="248" width="120" height="48" rx="9"/>
+  <text class="lbl" x="486" y="270" text-anchor="middle">MCP Server</text>
+  <text class="sub" x="486" y="285" text-anchor="middle">B's tools</text>
+
+  <path class="arrow" d="M292,80 L154,140"/>
+  <path class="arrow" d="M348,80 L486,140"/>
+  <path class="arrow" d="M154,196 V248"/>
+  <path class="arrow" d="M486,196 V248"/>
+
+  <text class="tag" x="200" y="102" text-anchor="middle">A2A</text>
+  <text class="tag" x="440" y="102" text-anchor="middle">A2A</text>
+  <text class="tagAlt" x="180" y="228" text-anchor="middle">MCP</text>
+  <text class="tagAlt" x="460" y="228" text-anchor="middle">MCP</text>
+
+  <circle class="req reqA" cx="320" cy="52" r="7"/>
+  <circle class="req reqB" cx="320" cy="52" r="7"/>
+  <circle class="res resA" cx="154" cy="272" r="7"/>
+  <circle class="res resB" cx="486" cy="272" r="7"/>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="MCP architecture diagram: a host manages two MCP clients, each holding one connection to its own MCP server, which exposes tools, resources, and prompts back to the host">
+  <title>MCP: Host, Clients, and Servers</title>
+  <defs>
+    <marker id="mcpArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .hub{fill:#ffffff;stroke:#ff7722;stroke-width:2.5;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10px;fill:#6b6456;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#mcpArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-24;}}
+    .req{fill:#ff7722;}
+    .res{fill:#3d2fa9;}
+    .reqA{animation:reqFlowA 8s linear infinite;}
+    .reqB{animation:reqFlowB 8s linear infinite;}
+    .resA{animation:resFlowA 8s linear infinite;}
+    .resB{animation:resFlowB 8s linear infinite;}
+    @keyframes reqFlowA{
+      0%{transform:translate(0,0);opacity:0;} 3%{opacity:1;}
+      30%{transform:translate(-172px,116px);opacity:1;}
+      55%{transform:translate(-172px,224px);opacity:1;}
+      58%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes reqFlowB{
+      0%{transform:translate(0,0);opacity:0;} 3%{opacity:1;}
+      30%{transform:translate(172px,116px);opacity:1;}
+      55%{transform:translate(172px,224px);opacity:1;}
+      58%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes resFlowA{
+      0%,60%{transform:translate(0,0);opacity:0;} 63%{opacity:1;}
+      85%{transform:translate(0,-108px);opacity:1;}
+      97%{transform:translate(172px,-224px);opacity:1;}
+      99%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes resFlowB{
+      0%,60%{transform:translate(0,0);opacity:0;} 63%{opacity:1;}
+      85%{transform:translate(0,-108px);opacity:1;}
+      97%{transform:translate(-172px,-224px);opacity:1;}
+      99%{opacity:0;} 100%{opacity:0;}
+    }
+  </style>
+  <rect class="bg" x="1" y="1" width="638" height="318" rx="14"/>
+
+  <rect class="hub" x="264" y="24" width="112" height="56" rx="10"/>
+  <text class="lbl" x="320" y="48" text-anchor="middle">Host</text>
+  <text class="sub" x="320" y="64" text-anchor="middle">manages MCP clients</text>
+
+  <rect class="node" x="88" y="140" width="120" height="56" rx="10"/>
+  <text class="lbl" x="148" y="163" text-anchor="middle">MCP Client</text>
+  <text class="sub" x="148" y="179" text-anchor="middle">1 client, 1 server</text>
+
+  <rect class="node" x="432" y="140" width="120" height="56" rx="10"/>
+  <text class="lbl" x="492" y="163" text-anchor="middle">MCP Client</text>
+  <text class="sub" x="492" y="179" text-anchor="middle">1 client, 1 server</text>
+
+  <rect class="node" x="88" y="248" width="120" height="56" rx="10"/>
+  <text class="lbl" x="148" y="271" text-anchor="middle">MCP Server A</text>
+  <text class="sub" x="148" y="287" text-anchor="middle">tools</text>
+
+  <rect class="node" x="432" y="248" width="120" height="56" rx="10"/>
+  <text class="lbl" x="492" y="271" text-anchor="middle">MCP Server B</text>
+  <text class="sub" x="492" y="287" text-anchor="middle">resources, prompts</text>
+
+  <path class="arrow" d="M292,80 L148,140"/>
+  <path class="arrow" d="M348,80 L492,140"/>
+  <path class="arrow" d="M148,196 V248"/>
+  <path class="arrow" d="M492,196 V248"/>
+
+  <circle class="req reqA" cx="320" cy="52" r="7"/>
+  <circle class="req reqB" cx="320" cy="52" r="7"/>
+  <circle class="res resA" cx="148" cy="276" r="7"/>
+  <circle class="res resB" cx="492" cy="276" r="7"/>
+</svg>

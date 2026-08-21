@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="A2A diagram: a client agent fetches a remote agent's Agent Card to discover its skills and auth requirements, sends it a task, and the remote agent runs the task and returns an artifact" >
+  <title>A2A: Discovery, Task, and Artifact</title>
+  <defs>
+    <marker id="a2aArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#c9c2ac"/>
+    </marker>
+  </defs>
+  <style>
+    .bg{fill:#fdfbf3;stroke:#e6e1d2;}
+    .node{fill:#ffffff;stroke:#3d2fa9;stroke-width:2;}
+    .cardNode{fill:#ffffff;stroke:#ff7722;stroke-width:2;}
+    .toolNode{fill:#ffffff;stroke:#ffc765;stroke-width:2;}
+    .lbl{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;fill:#171412;}
+    .sub{font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:10px;fill:#6b6456;}
+    .arrow{fill:none;stroke:#c9c2ac;stroke-width:2;stroke-dasharray:6 6;marker-end:url(#a2aArrow);animation:dash 1s linear infinite;}
+    @keyframes dash{to{stroke-dashoffset:-24;}}
+    .req{fill:#ff7722;}
+    .res{fill:#3d2fa9;}
+    .reqTok{animation:reqFlow 7s linear infinite;}
+    .resTok{animation:resFlow 7s linear infinite;}
+    @keyframes reqFlow{
+      0%{transform:translate(0,0);opacity:0;} 3%{opacity:1;}
+      25%{transform:translate(122px,0);}
+      45%{transform:translate(360px,0);opacity:1;}
+      65%{transform:translate(430px,100px);opacity:1;}
+      68%{opacity:0;} 100%{opacity:0;}
+    }
+    @keyframes resFlow{
+      0%,72%{transform:translate(0,0);opacity:0;} 75%{opacity:1;}
+      96%{transform:translate(-430px,-100px);opacity:1;}
+      99%{opacity:0;} 100%{opacity:0;}
+    }
+  </style>
+  <rect class="bg" x="1" y="1" width="638" height="318" rx="14"/>
+
+  <rect class="node" x="42" y="132" width="96" height="56" rx="10"/>
+  <text class="lbl" x="90" y="156" text-anchor="middle">Client Agent</text>
+  <text class="sub" x="90" y="172" text-anchor="middle">delegates task</text>
+
+  <rect class="cardNode" x="222" y="132" width="96" height="56" rx="10"/>
+  <text class="lbl" x="270" y="156" text-anchor="middle">Agent Card</text>
+  <text class="sub" x="270" y="172" text-anchor="middle">discover &amp; auth</text>
+
+  <rect class="node" x="402" y="132" width="96" height="56" rx="10"/>
+  <text class="lbl" x="450" y="156" text-anchor="middle">Remote Agent</text>
+  <text class="sub" x="450" y="172" text-anchor="middle">runs the task</text>
+
+  <rect class="toolNode" x="330" y="232" width="100" height="44" rx="9"/>
+  <text class="lbl" x="380" y="258" text-anchor="middle">Task</text>
+
+  <rect class="toolNode" x="470" y="232" width="100" height="44" rx="9"/>
+  <text class="lbl" x="520" y="258" text-anchor="middle">Artifact</text>
+
+  <path class="arrow" d="M138,160 H222"/>
+  <path class="arrow" d="M318,160 H402"/>
+  <path class="arrow" d="M420,188 L390,232"/>
+  <path class="arrow" d="M480,188 L520,232"/>
+
+  <circle class="req reqTok" cx="90" cy="160" r="7"/>
+  <circle class="res resTok" cx="520" cy="260" r="7"/>
+</svg>
