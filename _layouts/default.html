@@ -83,7 +83,7 @@
     </aside>
 
     <div class="content-area">
-      <main id="main" class="wrap">
+      <main id="main" class="wrap{% if page.nav == 'resume' %} wrap-wide{% endif %}">
         {{ content }}
       </main>
 

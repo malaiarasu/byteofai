@@ -84,6 +84,10 @@ body {
   padding: 0 24px;
 }
 
+.wrap-wide {
+  max-width: 1400px;
+}
+
 a { color: inherit; }
 
 .skip-link {
@@ -889,7 +893,9 @@ main.wrap {
   overflow: hidden;
   background: var(--bg-elevated);
   box-shadow: var(--shadow);
-  height: 80vh;
+  width: 100%;
+  height: calc(100vh - 160px);
+  min-height: 700px;
 }
 
 .resume-viewer iframe {
@@ -898,9 +904,16 @@ main.wrap {
   border: none;
 }
 
+@media (max-width: 900px) {
+  .wrap-wide {
+    max-width: 1040px;
+  }
+}
+
 @media (max-width: 640px) {
   .resume-viewer {
-    height: 60vh;
+    height: 70vh;
+    min-height: 480px;
   }
 }
 
